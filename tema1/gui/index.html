@@ -1,1 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Práctica 1 · GUI, utilidades, archivos y terminal · 4.º ESO</title>
+<style>
+:root{--bg:#0f172a;--panel:#111827;--text:#e5e7eb;--muted:#9ca3af;--accent:#38bdf8;--ok:#34d399;--warn:#fbbf24;--bad:#fb7185;--line:#334155}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:linear-gradient(180deg,#0b1220,#111827);color:var(--text);line-height:1.5}
+header{position:sticky;top:0;z-index:10;background:rgba(15,23,42,.96);border-bottom:1px solid var(--line)}.wrap{max-width:1000px;margin:auto;padding:18px}
+.top{display:flex;gap:18px;align-items:center;justify-content:space-between;flex-wrap:wrap}h1{font-size:1.25rem;margin:0}.score{font-weight:800;color:var(--accent)}
+.progress{height:12px;background:#243247;border-radius:999px;overflow:hidden;margin-top:12px}.progress>div{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--ok));transition:.3s}
+main{max-width:1000px;margin:auto;padding:22px 18px 70px}.card{background:rgba(17,24,39,.94);border:1px solid var(--line);border-radius:18px;padding:22px;margin:18px 0}
+.hero{background:linear-gradient(135deg,#111827,#172554)}h2{margin-top:0;font-size:1.35rem}h3{margin:1.2rem 0 .5rem;font-size:1.05rem}p{margin:.6rem 0}
+.small{font-size:.92rem;color:var(--muted)}.badge{display:inline-block;padding:5px 10px;border-radius:999px;background:#1e293b;border:1px solid var(--line);font-size:.82rem}
+.callout{padding:15px 16px;border-radius:14px;margin:14px 0;border-left:4px solid var(--accent);background:#142033}.windows{border-left-color:#60a5fa;background:#10203b}.ai{border-left-color:#a78bfa;background:#1d1738}.discover{border-left-color:var(--ok);background:#102a27}.warn{border-left-color:var(--warn);background:#30250f}
+.example{border-left-color:#f59e0b;background:#2a210f}
+label{display:block;margin:.8rem 0 .35rem;font-weight:700}input[type=text],select,textarea{width:100%;background:#0b1220;color:var(--text);border:1px solid #475569;border-radius:10px;padding:11px 12px;font:inherit}textarea{min-height:92px;resize:vertical}
+input:focus,select:focus,textarea:focus,button:focus{outline:3px solid rgba(56,189,248,.25);outline-offset:2px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.choice{background:#0b1220;border:1px solid #334155;border-radius:12px;padding:12px}.choice label{display:flex;gap:8px;align-items:flex-start;margin:0;font-weight:500}
+button{border:0;border-radius:11px;padding:11px 16px;background:var(--accent);color:#052033;font-weight:800;cursor:pointer}.danger{background:#3a1b24;color:#fecdd3;border:1px solid #7f1d1d}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.feedback{min-height:26px;margin-top:10px;font-weight:700}.ok{color:var(--ok)}.bad{color:var(--bad)}
+.paste-zone{min-height:135px;border:2px dashed #64748b;border-radius:14px;background:#0b1220;display:flex;align-items:center;justify-content:center;text-align:center;padding:12px;color:var(--muted);overflow:hidden}
+.paste-zone img{max-width:100%;max-height:360px;border-radius:8px;display:block}.paste-zone.active{border-color:var(--accent);background:#0c1a2a}
+table{width:100%;border-collapse:collapse;margin-top:10px}th,td{border:1px solid var(--line);padding:9px;text-align:left;vertical-align:top}th{background:#172033}
+code,pre{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}code{background:#020617;border:1px solid #334155;border-radius:6px;padding:2px 6px;color:#bae6fd}
+pre{background:#020617;border:1px solid #334155;border-radius:12px;padding:14px;overflow:auto;color:#dbeafe}
+.lock{font-size:.84rem;color:#fcd34d}.reto-num{color:var(--accent);font-weight:900;letter-spacing:.03em;text-transform:uppercase;font-size:.82rem}.hidden{display:none!important}
+footer{color:var(--muted);font-size:.85rem;margin-top:30px}@media(max-width:640px){.card{padding:16px}.wrap{padding:14px}main{padding:14px 12px 50px}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><div class="top"><h1>Práctica 1 · Interfaz, utilidades, archivos y terminal</h1><div class="score"><span id="score">0</span>/20 puntos automáticos · +5 profesora</div></div><div class="progress"><div id="progressBar"></div></div></div></header>
 
+<main>
+<section class="card hero">
+<span class="badge">4.º ESO · Sistemas Operativos</span>
+<h2>Explora y utiliza tu sistema operativo</h2>
+<p>En el aula trabajarás con <strong>EducaAndOS</strong>. En casa probablemente utilizas <strong>Windows</strong>. En esta práctica vas a buscar herramientas del sistema, crear carpetas y archivos y realizar algunas acciones tanto con la interfaz gráfica como con el Terminal.</p>
+<div class="callout discover"><strong>Objetivo:</strong> entender que el sistema operativo proporciona una interfaz, utilidades y herramientas para organizar archivos y ejecutar órdenes.</div>
+<div class="grid">
+  <div><label for="studentName">Nombre y apellidos *</label><input id="studentName" type="text" placeholder="Ej.: Lucía García López"></div>
+  <div><label for="group">Grupo *</label><input id="group" type="text" placeholder="Ej.: 4.º ESO A"></div>
+</div>
+<p id="restoreMsg" class="small"></p>
+</section>
+
+<section class="card" id="reto1">
+<div class="reto-num">Reto 1 · 3 puntos</div><h2>1. Reconoce la GUI</h2>
+<p>Observa el escritorio de EducaAndOS y localiza elementos de la interfaz gráfica.</p>
+<div class="grid" id="guiChecks">
+<div class="choice"><label><input type="checkbox" value="icono"> Icono</label></div>
+<div class="choice"><label><input type="checkbox" value="menu"> Menú de aplicaciones</label></div>
+<div class="choice"><label><input type="checkbox" value="ventana"> Ventana</label></div>
+<div class="choice"><label><input type="checkbox" value="puntero"> Puntero</label></div>
+<div class="choice"><label><input type="checkbox" value="panel"> Barra o panel</label></div>
+</div>
+<label>📷 Pega una captura de tu escritorio</label><div class="paste-zone" data-image-key="img1" tabindex="0">Haz clic aquí y pulsa <strong>Ctrl+V</strong>.</div>
+<label for="q1">¿Qué significa GUI?</label>
+<select id="q1"><option value="">Selecciona…</option><option value="a">General User Internet</option><option value="b">Graphical User Interface</option><option value="c">Graphic Universal Instruction</option></select>
+<div class="actions"><button type="button" data-check="r1">Comprobar reto 1</button></div><div id="fb-r1" class="feedback"></div>
+<div class="callout discover"><strong>DESCUBRE.</strong> La GUI permite interactuar con el sistema mediante ventanas, iconos, menús, botones y puntero.</div>
+<div class="callout windows"><strong>🏠 EN WINDOWS.</strong> Escritorio, menú Inicio, barra de tareas, iconos y ventanas son también elementos de una GUI.</div>
+</section>
+
+<section class="card" id="reto2">
+<div class="reto-num">Reto 2 · 3 puntos</div><h2>2. Busca utilidades del sistema y ejecútalas</h2>
+<p>Abre el menú de aplicaciones de EducaAndOS. Localiza y ejecuta al menos <strong>tres utilidades</strong>. Puedes buscar, por ejemplo:</p>
+<div class="grid">
+  <div class="choice"><strong>Calculadora</strong><br><span class="small">Para realizar operaciones sin necesitar otra aplicación.</span></div>
+  <div class="choice"><strong>Editor de texto</strong><br><span class="small">Para crear y modificar archivos de texto.</span></div>
+  <div class="choice"><strong>Captura de pantalla</strong><br><span class="small">Para guardar una imagen de lo que aparece en pantalla.</span></div>
+  <div class="choice"><strong>Gestor de archivos</strong><br><span class="small">Para crear, copiar, mover, renombrar y organizar archivos y carpetas.</span></div>
+</div>
+<p>Escribe tres utilidades que hayas encontrado y un ejemplo de para qué sirve cada una.</p>
+<table>
+<thead><tr><th>Utilidad encontrada</th><th>Ejemplo de uso</th></tr></thead>
+<tbody>
+<tr><td><input id="util1" class="no-paste" type="text"></td><td><input id="use1" class="no-paste" type="text"></td></tr>
+<tr><td><input id="util2" class="no-paste" type="text"></td><td><input id="use2" class="no-paste" type="text"></td></tr>
+<tr><td><input id="util3" class="no-paste" type="text"></td><td><input id="use3" class="no-paste" type="text"></td></tr>
+</tbody></table>
+<div class="lock">🔒 Debes escribir las respuestas con tus propias palabras.</div>
+<label>📷 Pega una captura en la que se vea una de las utilidades ejecutándose</label><div class="paste-zone" data-image-key="img2" tabindex="0">Haz clic aquí y pulsa <strong>Ctrl+V</strong>.</div>
+<div class="actions"><button type="button" data-check="r2">Comprobar reto 2</button></div><div id="fb-r2" class="feedback"></div>
+<div class="callout windows"><strong>🏠 EN WINDOWS.</strong> También puedes buscar herramientas equivalentes desde el menú Inicio: Calculadora, Bloc de notas, Recortes o Explorador de archivos.</div>
+</section>
+
+<section class="card" id="reto3">
+<div class="reto-num">Reto 3 · 4 puntos</div><h2>3. Crea una estructura de directorios</h2>
+<p>Utilizando el gestor de archivos, crea exactamente esta estructura dentro de tu carpeta personal:</p>
+<pre>Practica_SO
+├── GUI
+├── DOCUMENTOS
+│   └── PERSONAL
+├── CAPTURAS
+└── TERMINAL</pre>
+<p>De momento puedes crear todas las carpetas con la GUI. Más adelante volveremos a crear una carpeta desde el Terminal.</p>
+<label for="howFolders">Explica brevemente cómo has creado la estructura.</label>
+<textarea id="howFolders" class="no-paste" placeholder="Describe los pasos que has seguido…"></textarea><div class="lock">🔒 No se permite copiar y pegar.</div>
+<label>📷 ENTREGA: pega una captura donde se vea toda la estructura de carpetas</label><div class="paste-zone" data-image-key="img3" tabindex="0">La captura formará parte del archivo final que entregarás.</div>
+<div class="grid">
+<div class="choice"><label><input id="dirA" type="checkbox"> Existe <code>Practica_SO/GUI</code></label></div>
+<div class="choice"><label><input id="dirB" type="checkbox"> Existe <code>Practica_SO/DOCUMENTOS/PERSONAL</code></label></div>
+<div class="choice"><label><input id="dirC" type="checkbox"> Existen <code>CAPTURAS</code> y <code>TERMINAL</code></label></div>
+</div>
+<div class="actions"><button type="button" data-check="r3">Comprobar reto 3</button></div><div id="fb-r3" class="feedback"></div>
+<div class="callout example"><strong>¿Para qué sirve organizar en carpetas?</strong> Imagina que descargas muchos trabajos, fotos y documentos. Si los dejas todos juntos será difícil encontrarlos. Una estructura de carpetas permite clasificarlos por asignatura, proyecto, fecha o tipo de contenido.</div>
+<div class="callout windows"><strong>🏠 EN WINDOWS.</strong> Harías lo mismo desde el <strong>Explorador de archivos</strong>: crear carpetas y subcarpetas y organizarlas jerárquicamente.</div>
+</section>
+
+<section class="card" id="reto4">
+<div class="reto-num">Reto 4 · 4 puntos</div><h2>4. Crea, guarda, mueve y renombra un archivo</h2>
+<p>Ahora utilizarás el <strong>editor de texto de EducaAndOS</strong>.</p>
+<ol>
+<li>Abre el editor de texto.</li>
+<li>Crea un archivo nuevo.</li>
+<li>Escribe dentro tu <strong>nombre y apellidos</strong>.</li>
+<li>Guárdalo como <code>datos.txt</code> dentro de <code>Practica_SO/DOCUMENTOS</code>.</li>
+<li>Ciérralo y vuelve a abrirlo para comprobar que se ha guardado correctamente.</li>
+<li><strong>Mueve</strong> el archivo a <code>Practica_SO/DOCUMENTOS/PERSONAL</code>.</li>
+<li>Finalmente, <strong>cámbiale el nombre</strong> a <code>identidad.txt</code>.</li>
+</ol>
+<div class="callout example"><strong>Ejemplo real.</strong> Descargas un archivo llamado <code>documento1.pdf</code>. Puedes moverlo a <code>Facturas/2026</code> y renombrarlo como <code>Factura_luz_septiembre.pdf</code>. El contenido no cambia, pero después será mucho más fácil localizarlo.</div>
+<label for="fileExplain">¿Qué ha cambiado cuando has movido el archivo? ¿Y cuando lo has renombrado?</label>
+<textarea id="fileExplain" class="no-paste" placeholder="Explícalo con tus palabras…"></textarea><div class="lock">🔒 No se permite copiar y pegar.</div>
+<label>📷 Pega una captura final donde se vea <code>identidad.txt</code> dentro de la carpeta <code>PERSONAL</code></label>
+<div class="paste-zone" data-image-key="img4" tabindex="0">Haz clic aquí y pulsa <strong>Ctrl+V</strong>.</div>
+<div class="grid">
+<div class="choice"><label><input id="fileSaved" type="checkbox"> El archivo contiene mi nombre</label></div>
+<div class="choice"><label><input id="fileMoved" type="checkbox"> Lo he movido a <code>PERSONAL</code></label></div>
+<div class="choice"><label><input id="fileRenamed" type="checkbox"> Ahora se llama <code>identidad.txt</code></label></div>
+</div>
+<div class="actions"><button type="button" data-check="r4">Comprobar reto 4</button></div><div id="fb-r4" class="feedback"></div>
+<div class="callout windows"><strong>🏠 EN WINDOWS.</strong> Puedes hacer lo mismo con el Bloc de notas y el Explorador de archivos: guardar, mover y cambiar el nombre de un archivo.</div>
+</section>
+
+<section class="card" id="reto5">
+<div class="reto-num">Reto 5 · 3 puntos</div><h2>5. Habla con el sistema mediante comandos</h2>
+<p>Busca <strong>Terminal</strong> en EducaAndOS y ejecuta estos comandos:</p>
+<p><code>whoami</code> &nbsp; <code>pwd</code> &nbsp; <code>ls</code></p>
+<label for="whoamiOut">¿Qué te ha respondido <code>whoami</code>?</label><input id="whoamiOut" class="no-paste" type="text"><div class="lock">🔒 Escribe el resultado, no lo pegues.</div>
+<div class="grid">
+<div><label for="qPwd">¿Qué hace <code>pwd</code>?</label><select id="qPwd"><option value="">Selecciona…</option><option value="wrong1">Muestra la contraseña</option><option value="correct">Muestra el directorio en el que estoy</option><option value="wrong2">Apaga el ordenador</option></select></div>
+<div><label for="qLs">¿Qué hace <code>ls</code>?</label><select id="qLs"><option value="">Selecciona…</option><option value="wrong1">Cierra la sesión</option><option value="wrong2">Muestra el usuario</option><option value="correct">Muestra el contenido del directorio</option></select></div>
+</div>
+<label>📷 Pega una captura del Terminal con los comandos ejecutados</label><div class="paste-zone" data-image-key="img5" tabindex="0">Haz clic aquí y pulsa <strong>Ctrl+V</strong>.</div>
+<div class="actions"><button type="button" data-check="r5">Comprobar reto 5</button></div><div id="fb-r5" class="feedback"></div>
+<div class="callout discover"><strong>DESCUBRE.</strong> Una <strong>CLI</strong> permite interactuar con el sistema escribiendo comandos.</div>
+<div class="callout windows"><strong>🏠 EN WINDOWS.</strong> Las herramientas equivalentes más habituales son <strong>CMD</strong> y <strong>PowerShell</strong>.</div>
+</section>
+
+<section class="card" id="reto6">
+<div class="reto-num">Reto 6 · 2 puntos</div><h2>6. Realiza una acción desde el Terminal</h2>
+<p>Dentro de <code>Practica_SO</code>, crea mediante el Terminal una carpeta nueva llamada <code>PRUEBA_CLI</code>. No te damos el comando.</p>
+<div class="callout ai"><strong>🤖 PUEDES PEDIR AYUDA A UNA IA.</strong><p>Indícale que trabajas en EducaAndOS y pídele orientación para crear una carpeta desde el Terminal. Después debes ejecutar tú el comando y comprobar el resultado.</p></div>
+<label for="aiUsed">¿Has necesitado consultar a una IA?</label><select id="aiUsed"><option value="">Selecciona…</option><option value="no">No</option><option value="yes">Sí</option></select>
+<div id="aiFields" class="hidden">
+<label for="aiPrompt">Pega aquí el prompt utilizado</label><textarea id="aiPrompt"></textarea>
+<label for="aiUseful">¿Qué aprendiste de la explicación?</label><textarea id="aiUseful" class="no-paste"></textarea><div class="lock">🔒 Esta parte debes escribirla tú.</div>
+</div>
+<label for="cmdUsed">Escribe el comando que utilizaste</label><input id="cmdUsed" type="text">
+<label>📷 Pega una captura donde se vea <code>PRUEBA_CLI</code></label><div class="paste-zone" data-image-key="img6" tabindex="0">Puede ser desde el Terminal o desde el gestor de archivos.</div>
+<div class="actions"><button type="button" data-check="r6">Comprobar reto 6</button></div><div id="fb-r6" class="feedback"></div>
+</section>
+
+<section class="card" id="reto7">
+<div class="reto-num">Reto 7 · 1 punto automático + 5 profesora</div><h2>7. Conclusión: GUI, CLI y Windows</h2>
+<table><thead><tr><th>EducaAndOS</th><th>Windows</th></tr></thead><tbody>
+<tr><td>Gestor de archivos</td><td><select id="w1"><option value="">Selecciona…</option><option value="explorer">Explorador de archivos</option><option value="paint">Paint</option></select></td></tr>
+<tr><td>Terminal / CLI</td><td><select id="w2"><option value="">Selecciona…</option><option value="cmd">CMD / PowerShell</option><option value="edge">Edge</option></select></td></tr>
+<tr><td>Menú de aplicaciones</td><td><select id="w3"><option value="">Selecciona…</option><option value="start">Menú Inicio</option><option value="taskmgr">Administrador de tareas</option></select></td></tr>
+</tbody></table>
+<label for="finalExplain">Un compañero dice: «Si uso el Terminal, ya no estoy utilizando el sistema operativo porque no hay iconos». ¿Tiene razón? Explícalo utilizando las palabras <strong>sistema operativo, GUI, CLI y comando</strong>.</label>
+<textarea id="finalExplain" class="no-paste"></textarea><div class="lock">🔒 Respuesta personal. La revisará la profesora.</div>
+<div class="actions"><button type="button" data-check="r7">Comprobar reto 7</button></div><div id="fb-r7" class="feedback"></div>
+</section>
+
+<section class="card">
+<h2>Resultado y entrega</h2>
+<p><strong>Puntuación automática:</strong> <span id="finalAuto">0</span>/20</p>
+<p><strong>Valoración de la profesora:</strong> /5</p>
+<p><strong>Puntuación final:</strong> /25</p>
+<div class="callout warn">El archivo descargado incluirá tus respuestas, puntuación y capturas. Súbelo a Classroom como entrega de la práctica.</div>
+<div class="actions"><button id="downloadBtn" type="button">Descargar actividad</button><button id="resetBtn" type="button" class="danger">Borrar progreso de este equipo</button></div>
+<div id="downloadMsg" class="feedback"></div>
+</section>
+<footer>La actividad guarda automáticamente el progreso en este navegador. Las respuestas abiertas serán revisadas por la profesora.</footer>
+</main>
+
+<script>
+(()=> {
+const STORAGE_KEY='practica1_so_gui_archivos_terminal_v2', imageData={}, awarded={r1:0,r2:0,r3:0,r4:0,r5:0,r6:0,r7:0};
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const total=()=>Object.values(awarded).reduce((a,b)=>a+b,0);
+function updateScore(){ $('#score').textContent=total(); $('#finalAuto').textContent=total(); $('#progressBar').style.width=Math.min(100,total()/20*100)+'%'; }
+function save(){ const d={}; $$('input,select,textarea').forEach(el=>{if(el.type==='checkbox')return;d[el.id]=el.value}); ['folder1','dirA','dirB','dirC','fileSaved','fileMoved','fileRenamed'].forEach(id=>{if($('#'+id))d[id]=$('#'+id).checked}); d.guiChecks=$$('#guiChecks input').filter(x=>x.checked).map(x=>x.value); d.awarded=awarded; d.imageData=imageData; localStorage.setItem(STORAGE_KEY,JSON.stringify(d));}
+function renderImages(){ $$('.paste-zone').forEach(z=>{const k=z.dataset.imageKey;if(imageData[k]){z.innerHTML='<img alt="Captura pegada por el alumno">';z.querySelector('img').src=imageData[k];}});}
+function load(){ const r=localStorage.getItem(STORAGE_KEY); if(!r){$('#restoreMsg').textContent='No hay progreso guardado todavía en este equipo.';return;} try{const d=JSON.parse(r);$$('input,select,textarea').forEach(el=>{if(el.type!=='checkbox'&&d[el.id]!=null)el.value=d[el.id]}); ['dirA','dirB','dirC','fileSaved','fileMoved','fileRenamed'].forEach(id=>{if($('#'+id))$('#'+id).checked=!!d[id]});$$('#guiChecks input').forEach(x=>x.checked=(d.guiChecks||[]).includes(x.value));Object.assign(awarded,d.awarded||{});Object.assign(imageData,d.imageData||{});renderImages();toggleAi();updateScore();$('#restoreMsg').textContent='✓ Progreso recuperado de este equipo.';}catch(e){$('#restoreMsg').textContent='No se pudo recuperar el progreso anterior.';}}
+function fb(id,msg,ok){const e=$('#fb-'+id);e.textContent=msg;e.className='feedback '+(ok?'ok':'bad');}
+function checkR1(){let p=0;if($$('#guiChecks input:checked').length>=5)p++;if(imageData.img1)p++;if($('#q1').value==='b')p++;awarded.r1=p;fb('r1',p===3?'✓ Reto 1 completado: 3/3 puntos.':`Has conseguido ${p}/3 puntos.`,p===3);}
+function checkR2(){let p=0;const filled=[1,2,3].every(i=>$('#util'+i).value.trim().length>=3&&$('#use'+i).value.trim().length>=8);if(filled)p+=2;if(imageData.img2)p++;awarded.r2=p;fb('r2',p===3?'✓ Reto 2 completado: 3/3 puntos.':`Has conseguido ${p}/3 puntos.`,p===3);}
+function checkR3(){let p=0;if($('#dirA').checked&&$('#dirB').checked&&$('#dirC').checked)p+=2;if($('#howFolders').value.trim().length>=35)p++;if(imageData.img3)p++;awarded.r3=p;fb('r3',p===4?'✓ Reto 3 completado: 4/4 puntos.':`Has conseguido ${p}/4 puntos.`,p===4);}
+function checkR4(){let p=0;if($('#fileSaved').checked&&$('#fileMoved').checked&&$('#fileRenamed').checked)p+=2;if($('#fileExplain').value.trim().length>=45)p++;if(imageData.img4)p++;awarded.r4=p;fb('r4',p===4?'✓ Reto 4 completado: 4/4 puntos.':`Has conseguido ${p}/4 puntos.`,p===4);}
+function checkR5(){let p=0;if($('#whoamiOut').value.trim().length>=2)p++;if($('#qPwd').value==='correct')p++;if($('#qLs').value==='correct'&&imageData.img5)p++;awarded.r5=p;fb('r5',p===3?'✓ Reto 5 completado: 3/3 puntos.':`Has conseguido ${p}/3 puntos.`,p===3);}
+function checkR6(){let p=0,c=$('#cmdUsed').value.trim().toLowerCase();if(/\bmkdir\b/.test(c)&&/prueba_cli/i.test(c))p++;if(imageData.img6)p++;awarded.r6=p;fb('r6',p===2?'✓ Reto 6 completado: 2/2 puntos.':`Has conseguido ${p}/2 puntos.`,p===2);}
+function checkR7(){let p=($('#w1').value==='explorer'&&$('#w2').value==='cmd'&&$('#w3').value==='start')?1:0;awarded.r7=p;let ref=$('#finalExplain').value.trim().length>=80;fb('r7',ref?`${p}/1 punto automático. Respuesta final pendiente de profesora (/5).`:`${p}/1 punto automático. Falta desarrollar la conclusión.`,p===1&&ref);}
+function check(id){({r1:checkR1,r2:checkR2,r3:checkR3,r4:checkR4,r5:checkR5,r6:checkR6,r7:checkR7}[id])();updateScore();save();}
+function toggleAi(){ $('#aiFields').classList.toggle('hidden',$('#aiUsed').value!=='yes'); }
+$$('.no-paste').forEach(el=>{el.addEventListener('paste',e=>{e.preventDefault();alert('En este campo debes escribir con tus propias palabras. No se permite copiar y pegar.');});el.addEventListener('drop',e=>e.preventDefault());});
+$$('.paste-zone').forEach(z=>{z.addEventListener('click',()=>z.focus());z.addEventListener('focus',()=>z.classList.add('active'));z.addEventListener('blur',()=>z.classList.remove('active'));z.addEventListener('paste',e=>{const it=[...(e.clipboardData?.items||[])].find(i=>i.type.startsWith('image/'));if(!it){z.textContent='No se detectó una imagen. Haz una captura y vuelve a pulsar Ctrl+V.';return;}e.preventDefault();const f=it.getAsFile(),r=new FileReader();r.onload=()=>{imageData[z.dataset.imageKey]=r.result;renderImages();save();};r.readAsDataURL(f);});});
+$$('[data-check]').forEach(b=>b.addEventListener('click',()=>check(b.dataset.check)));$('#aiUsed').addEventListener('change',()=>{toggleAi();save();});$$('input,select,textarea').forEach(el=>{el.addEventListener('input',save);el.addEventListener('change',save);});
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));}
+function img(k){return imageData[k]?`<img src="${imageData[k]}" style="max-width:100%;max-height:430px;border:1px solid #aaa;border-radius:8px">`:'<em>Sin captura</em>';}
+function report(){
+ const name=esc($('#studentName').value.trim()),group=esc($('#group').value.trim());
+ return `<!doctype html><html lang="es"><meta charset="utf-8"><title>Entrega - ${name}</title>
+ <style>body{font-family:Arial;max-width:900px;margin:30px auto;padding:0 18px;line-height:1.5}.box{border:1px solid #ccc;border-radius:10px;padding:14px;margin:14px 0}code{background:#eee;padding:2px 5px}</style><body>
+ <h1>Práctica 1 · Interfaz, utilidades, archivos y terminal</h1><p><b>Alumno/a:</b> ${name}<br><b>Grupo:</b> ${group}</p>
+ <p><b>Puntuación automática:</b> ${total()}/20 · <b>Profesora:</b> /5 · <b>Total:</b> /25</p>
+ <div class="box"><h2>1. GUI</h2>${img('img1')}</div>
+ <div class="box"><h2>2. Utilidades</h2><p>${esc($('#util1').value)} — ${esc($('#use1').value)}</p><p>${esc($('#util2').value)} — ${esc($('#use2').value)}</p><p>${esc($('#util3').value)} — ${esc($('#use3').value)}</p>${img('img2')}</div>
+ <div class="box"><h2>3. Estructura de directorios</h2><p>${esc($('#howFolders').value).replace(/\n/g,'<br>')}</p>${img('img3')}</div>
+ <div class="box"><h2>4. Archivo</h2><p>${esc($('#fileExplain').value).replace(/\n/g,'<br>')}</p>${img('img4')}</div>
+ <div class="box"><h2>5. Terminal</h2><p><b>whoami:</b> ${esc($('#whoamiOut').value)}</p>${img('img5')}</div>
+ <div class="box"><h2>6. Acción por CLI</h2><p><b>Usó IA:</b> ${$('#aiUsed').value==='yes'?'Sí':'No'}</p><p><b>Prompt:</b><br>${esc($('#aiPrompt').value).replace(/\n/g,'<br>')}</p><p><b>Qué aprendió:</b><br>${esc($('#aiUseful').value).replace(/\n/g,'<br>')}</p><p><b>Comando:</b> ${esc($('#cmdUsed').value)}</p>${img('img6')}</div>
+ <div class="box"><h2>7. Conclusión</h2><p>${esc($('#finalExplain').value).replace(/\n/g,'<br>')}</p></div></body></html>`;
+}
+$('#downloadBtn').addEventListener('click',()=>{const n=$('#studentName').value.trim(),g=$('#group').value.trim();if(!n||!g){$('#downloadMsg').textContent='Debes completar nombre y grupo antes de descargar.';$('#downloadMsg').className='feedback bad';return;}save();const b=new Blob([report()],{type:'text/html;charset=utf-8'}),u=URL.createObjectURL(b),a=document.createElement('a'),clean=n.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9]+/g,'_').replace(/^_|_$/g,'');a.href=u;a.download=`Practica1_SO_${clean}.html`;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(u);$('#downloadMsg').textContent='✓ Actividad descargada. Súbela a Classroom.';$('#downloadMsg').className='feedback ok';});
+$('#resetBtn').addEventListener('click',()=>{if(confirm('¿Seguro que quieres borrar TODO el progreso de esta práctica?')&&confirm('Esta acción no se puede deshacer. ¿Borrar definitivamente?')){localStorage.removeItem(STORAGE_KEY);location.reload();}});
+load();
+})();
+</script>
+</body></html>
