@@ -1,1 +1,372 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arquitectura de ordenadores · 4.º ESO</title>
+<style>
+:root{
+  --azul:#0b4f9c;--azul2:#eaf3ff;--verde:#eaf8ee;--amarillo:#fff6d9;
+  --rosa:#fff0f2;--lila:#f2efff;--texto:#172033;--gris:#667085;--borde:#d8e0ea;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f6f8fb;color:var(--texto)}
+header{background:linear-gradient(135deg,#073b75,#1667bd);color:white;padding:28px 20px}
+header .wrap{max-width:1180px;margin:auto}
+h1{margin:0 0 6px;font-size:34px}
+header p{margin:0;opacity:.95;font-size:17px}
+main{max-width:1180px;margin:24px auto;padding:0 16px 60px}
+.card{background:white;border:1px solid var(--borde);border-radius:16px;padding:20px;margin:18px 0;box-shadow:0 4px 14px rgba(20,40,70,.06)}
+.blue{border-left:7px solid #2f80ed}.green{border-left:7px solid #2eae68}.yellow{border-left:7px solid #e6a600}
+.pink{border-left:7px solid #e84d6a}.purple{border-left:7px solid #7b61ff}
+h2{margin:0 0 12px;font-size:23px}
+h3{margin:20px 0 8px}
+label{display:block;font-weight:700;margin:12px 0 6px}
+input[type=text],input[type=url],input[type=number],select,textarea{
+  width:100%;padding:11px 12px;border:1px solid #bcc8d6;border-radius:9px;font:inherit;background:#fff
+}
+textarea{min-height:78px;resize:vertical}
+.namebox{display:grid;grid-template-columns:2fr 1fr;gap:16px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.component-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.component-card{background:#f9fbfd;border:1px solid var(--borde);border-radius:14px;padding:12px;text-align:center}
+.component-card svg{width:100%;height:150px;background:white;border-radius:10px}
+.component-card input{text-align:center;margin-top:8px}
+.muted{color:var(--gris);font-size:14px}
+.hint{background:var(--amarillo);border-radius:12px;padding:14px 16px;margin:12px 0}
+.intelamd{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.intelamd>div{border-radius:12px;padding:14px;background:#f8fbff;border:1px solid var(--borde)}
+table{width:100%;border-collapse:collapse;margin-top:10px}
+th,td{border:1px solid var(--borde);padding:8px;vertical-align:top}
+th{background:#eef4fb;text-align:left}
+td input,td textarea{min-width:120px}
+.price{width:95px!important}
+.checks{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.checks label{font-weight:400;margin:2px 0}
+#canvasWrap{background:#fff;border:2px dashed #7aa7d8;border-radius:12px;padding:10px}
+canvas{display:block;width:100%;height:420px;background:white;touch-action:none}
+.toolbar,.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+button{border:0;border-radius:9px;padding:11px 16px;font-weight:700;cursor:pointer}
+.primary{background:#1769d2;color:white}.secondary{background:#e9eef5;color:#1c2b3a}
+.danger{background:#ffe8e8;color:#9d2020}.success{background:#188a4d;color:white}
+.total{font-size:22px;font-weight:800;text-align:right;margin-top:12px}
+.required{color:#c92222}
+.note{font-size:13px;color:#5d6675}
+.footerActions{position:sticky;bottom:0;background:rgba(246,248,251,.95);backdrop-filter:blur(7px);padding:12px;border-top:1px solid var(--borde)}
+.tower-area{display:grid;grid-template-columns:1.1fr .9fr;gap:20px;align-items:start}
+.pcbox{background:#f8fafc;border:1px solid var(--borde);border-radius:14px;padding:12px}
+.pcbox svg{width:100%;height:auto;display:block}
+.locations{display:grid;gap:10px}
+.loc{background:#f9fbfd;border:1px solid var(--borde);border-radius:10px;padding:10px}
+@media(max-width:900px){
+  .component-grid{grid-template-columns:repeat(2,1fr)}
+  .tower-area,.namebox,.grid2,.grid3,.intelamd,.checks{grid-template-columns:1fr}
+  h1{font-size:28px}
+}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <h1>Arquitectura de ordenadores</h1>
+  <p>Actividad interactiva · 4.º ESO</p>
+</div></header>
 
+<main>
+<section class="card blue">
+  <h2>Datos del alumno</h2>
+  <div class="namebox">
+    <div>
+      <label>Nombre y apellidos <span class="required">*</span></label>
+      <input id="nombre" type="text" placeholder="Escribe tu nombre y apellidos" required>
+    </div>
+    <div>
+      <label>Grupo</label>
+      <input id="grupo" type="text" placeholder="Ej.: 4.º ESO A">
+    </div>
+  </div>
+  <p class="note">El nombre es obligatorio y se utilizará para generar el archivo de entrega.</p>
+</section>
+
+<section class="card yellow">
+  <h2>1. Reconoce los componentes</h2>
+  <p>Observa las ilustraciones y escribe debajo el nombre de cada componente.</p>
+  <div class="component-grid">
+    <div class="component-card">
+      <svg viewBox="0 0 220 150" aria-label="Componente A">
+        <rect x="20" y="15" width="180" height="120" rx="10" fill="#2f6d4f"/>
+        <rect x="75" y="45" width="55" height="55" fill="#d8d8d8" stroke="#333" stroke-width="3"/>
+        <rect x="30" y="28" width="28" height="12" fill="#1f1f1f"/><rect x="150" y="28" width="35" height="12" fill="#1f1f1f"/>
+        <rect x="35" y="105" width="130" height="8" fill="#111"/>
+        <circle cx="45" cy="45" r="5" fill="#e0b000"/><circle cx="175" cy="115" r="5" fill="#e0b000"/>
+        <text x="110" y="145" text-anchor="middle" font-size="16" fill="#111">A</text>
+      </svg>
+      <input data-save id="compA" type="text" placeholder="¿Qué componente es?">
+    </div>
+    <div class="component-card">
+      <svg viewBox="0 0 220 150" aria-label="Componente B">
+        <rect x="25" y="55" width="170" height="30" rx="5" fill="#2e7d32"/>
+        <rect x="35" y="45" width="22" height="40" fill="#222"/><rect x="65" y="45" width="22" height="40" fill="#222"/>
+        <rect x="95" y="45" width="22" height="40" fill="#222"/><rect x="125" y="45" width="22" height="40" fill="#222"/>
+        <rect x="155" y="45" width="22" height="40" fill="#222"/>
+        <g fill="#d6b63d"><rect x="35" y="88" width="8" height="18"/><rect x="48" y="88" width="8" height="18"/>
+        <rect x="61" y="88" width="8" height="18"/><rect x="74" y="88" width="8" height="18"/><rect x="87" y="88" width="8" height="18"/>
+        <rect x="100" y="88" width="8" height="18"/><rect x="113" y="88" width="8" height="18"/><rect x="126" y="88" width="8" height="18"/>
+        <rect x="139" y="88" width="8" height="18"/><rect x="152" y="88" width="8" height="18"/></g>
+        <text x="110" y="145" text-anchor="middle" font-size="16">B</text>
+      </svg>
+      <input data-save id="compB" type="text" placeholder="¿Qué componente es?">
+    </div>
+    <div class="component-card">
+      <svg viewBox="0 0 220 150" aria-label="Componente C">
+        <rect x="20" y="45" width="180" height="65" rx="8" fill="#263238"/>
+        <circle cx="80" cy="78" r="28" fill="#111"/><circle cx="80" cy="78" r="12" fill="#666"/>
+        <circle cx="145" cy="78" r="28" fill="#111"/><circle cx="145" cy="78" r="12" fill="#666"/>
+        <rect x="30" y="112" width="130" height="8" fill="#d6b63d"/>
+        <text x="110" y="145" text-anchor="middle" font-size="16">C</text>
+      </svg>
+      <input data-save id="compC" type="text" placeholder="¿Qué componente es?">
+    </div>
+    <div class="component-card">
+      <svg viewBox="0 0 220 150" aria-label="Componente D">
+        <rect x="55" y="35" width="110" height="75" rx="8" fill="#b8c1cc" stroke="#5d6675" stroke-width="3"/>
+        <circle cx="110" cy="72" r="25" fill="#dfe5eb" stroke="#5d6675" stroke-width="3"/>
+        <circle cx="110" cy="72" r="6" fill="#555"/>
+        <rect x="70" y="115" width="80" height="10" rx="3" fill="#444"/>
+        <text x="110" y="145" text-anchor="middle" font-size="16">D</text>
+      </svg>
+      <input data-save id="compD" type="text" placeholder="¿Qué componente es?">
+    </div>
+    <div class="component-card">
+      <svg viewBox="0 0 220 150" aria-label="Componente E">
+        <rect x="50" y="35" width="120" height="80" rx="10" fill="#444"/>
+        <circle cx="110" cy="75" r="28" fill="#222"/><circle cx="110" cy="75" r="9" fill="#777"/>
+        <g stroke="#aaa" stroke-width="3"><line x1="110" y1="47" x2="110" y2="103"/><line x1="82" y1="75" x2="138" y2="75"/>
+        <line x1="90" y1="55" x2="130" y2="95"/><line x1="130" y1="55" x2="90" y2="95"/></g>
+        <text x="110" y="145" text-anchor="middle" font-size="16">E</text>
+      </svg>
+      <input data-save id="compE" type="text" placeholder="¿Qué componente es?">
+    </div>
+  </div>
+</section>
+
+<section class="card green">
+  <h2>2. ¿Dónde va cada componente?</h2>
+  <div class="tower-area">
+    <div class="pcbox">
+      <svg viewBox="0 0 520 420" aria-label="Interior simplificado de una torre">
+        <rect x="25" y="20" width="470" height="370" rx="18" fill="#edf2f7" stroke="#506070" stroke-width="4"/>
+        <rect x="70" y="55" width="290" height="240" rx="12" fill="#b7d4c5" stroke="#2f6d4f" stroke-width="3"/>
+        <rect x="190" y="105" width="90" height="90" fill="#ddd" stroke="#333" stroke-width="3"/>
+        <rect x="105" y="85" width="28" height="145" fill="#263238"/>
+        <rect x="145" y="85" width="28" height="145" fill="#263238"/>
+        <rect x="90" y="245" width="230" height="28" rx="5" fill="#333"/>
+        <rect x="335" y="70" width="120" height="70" rx="8" fill="#b8c1cc" stroke="#5d6675" stroke-width="3"/>
+        <rect x="345" y="255" width="115" height="95" rx="8" fill="#444"/>
+        <circle cx="402" cy="300" r="28" fill="#222"/><circle cx="402" cy="300" r="8" fill="#777"/>
+        <circle cx="405" cy="175" r="42" fill="#111"/><circle cx="405" cy="175" r="16" fill="#777"/>
+        <g font-size="22" font-weight="700" fill="#0b4f9c">
+          <circle cx="235" cy="145" r="17" fill="#fff"/><text x="235" y="152" text-anchor="middle">1</text>
+          <circle cx="120" cy="115" r="17" fill="#fff"/><text x="120" y="122" text-anchor="middle">2</text>
+          <circle cx="205" cy="258" r="17" fill="#fff"/><text x="205" y="265" text-anchor="middle">3</text>
+          <circle cx="395" cy="105" r="17" fill="#fff"/><text x="395" y="112" text-anchor="middle">4</text>
+          <circle cx="400" cy="302" r="17" fill="#fff"/><text x="400" y="309" text-anchor="middle">5</text>
+        </g>
+      </svg>
+    </div>
+    <div class="locations">
+      <div class="loc"><b>1.</b><input data-save id="loc1" type="text" placeholder="¿Qué componente va aquí?"></div>
+      <div class="loc"><b>2.</b><input data-save id="loc2" type="text" placeholder="¿Qué componente va aquí?"></div>
+      <div class="loc"><b>3.</b><input data-save id="loc3" type="text" placeholder="¿Qué componente va aquí?"></div>
+      <div class="loc"><b>4.</b><input data-save id="loc4" type="text" placeholder="¿Qué componente va aquí?"></div>
+      <div class="loc"><b>5.</b><input data-save id="loc5" type="text" placeholder="¿Qué componente va aquí?"></div>
+      <label>¿Qué pieza sirve de soporte y conexión para gran parte de los demás componentes?</label>
+      <textarea data-save id="locExplain"></textarea>
+    </div>
+  </div>
+</section>
+
+<section class="card green">
+  <h2>3. ¿Cuál es su función?</h2>
+  <p>Explícalo con tus propias palabras.</p>
+  <div class="grid2">
+    <div><label>Placa base</label><textarea data-save id="fPlaca"></textarea></div>
+    <div><label>Memoria RAM</label><textarea data-save id="fRam"></textarea></div>
+    <div><label>Tarjeta gráfica</label><textarea data-save id="fGpu"></textarea></div>
+    <div><label>Disco duro / SSD</label><textarea data-save id="fSsd"></textarea></div>
+    <div><label>Fuente de alimentación</label><textarea data-save id="fPsu"></textarea></div>
+    <div><label>Microprocesador</label><textarea data-save id="fCpu"></textarea></div>
+  </div>
+</section>
+
+<section class="card purple">
+  <h2>4. Conexiones y compatibilidad</h2>
+  <label>¿Cómo se conecta la memoria RAM a la placa base?</label><textarea data-save id="qRam"></textarea>
+  <label>¿Qué tipo de ranura utiliza normalmente una tarjeta gráfica?</label><textarea data-save id="qGpu"></textarea>
+  <label>¿Cómo puede conectarse un SSD a la placa base?</label><textarea data-save id="qSsd"></textarea>
+  <label>¿Por qué no podemos elegir cualquier procesador para cualquier placa base?</label><textarea data-save id="qSocket"></textarea>
+  <label>¿Para qué sirve la fuente de alimentación y qué debemos comprobar al elegirla?</label><textarea data-save id="qPsu"></textarea>
+</section>
+
+<section class="card blue">
+  <h2>5. Dibuja la arquitectura de un ordenador</h2>
+  <p>Dibuja un esquema en el que aparezcan <b>CPU, RAM, almacenamiento, placa base, tarjeta gráfica, dispositivos de entrada y dispositivos de salida</b>. Utiliza flechas para mostrar cómo se relacionan.</p>
+  <div id="canvasWrap"><canvas id="canvas" width="1100" height="420"></canvas></div>
+  <div class="toolbar">
+    <button type="button" class="secondary" onclick="setPen(3)">Lápiz fino</button>
+    <button type="button" class="secondary" onclick="setPen(7)">Lápiz grueso</button>
+    <button type="button" class="danger" onclick="clearCanvas()">Borrar dibujo</button>
+  </div>
+</section>
+
+<section class="card pink">
+  <h2>6. Situaciones reales</h2>
+  <label>Un ordenador se vuelve lento cuando se abren muchas aplicaciones. ¿Qué componente puede estar limitándolo? Explica por qué.</label>
+  <textarea data-save id="s1"></textarea>
+  <label>Un ordenador tiene un SSD muy rápido, pero muy poca RAM. ¿Cómo crees que se notará?</label>
+  <textarea data-save id="s2"></textarea>
+  <label>Un videojuego pierde fluidez al aumentar mucho la calidad gráfica. ¿Qué componente investigarías primero? ¿Por qué?</label>
+  <textarea data-save id="s3"></textarea>
+</section>
+
+<section class="card green">
+  <h2>7. Reto final · Diseña un ordenador real</h2>
+  <p>Dispones de <b>700 €</b>. Elige un tipo de equipo y busca en Internet componentes reales que sean <b>compatibles entre sí</b>.</p>
+
+  <label>Tipo de equipo</label>
+  <select data-save id="perfil">
+    <option value="">Selecciona una opción</option>
+    <option>Estudio y trabajo</option>
+    <option>Videojuegos</option>
+    <option>Edición de imagen y vídeo</option>
+  </select>
+
+  <div class="hint"><b>La compatibilidad forma parte del reto.</b> No basta con elegir componentes potentes: todos deben poder trabajar juntos.</div>
+
+  <div class="intelamd">
+    <div>
+      <h3>Si eliges Intel</h3>
+      <p>Comprueba el <b>socket exacto</b> del procesador y busca una placa base compatible. Revisa además chipset, tipo de RAM admitido y conexiones disponibles.</p>
+    </div>
+    <div>
+      <h3>Si eliges AMD</h3>
+      <p>Comprueba el <b>socket</b> del procesador elegido —por ejemplo AM4 o AM5 según el modelo— y selecciona una placa compatible. Revisa también chipset y tipo de RAM.</p>
+    </div>
+  </div>
+
+  <h3>Componentes seleccionados</h3>
+  <table>
+    <thead><tr><th>Componente</th><th>Modelo</th><th>Característica importante</th><th>Precio €</th><th>Enlace</th><th>¿Por qué lo eliges?</th></tr></thead>
+    <tbody>
+      <tr><td>Procesador</td><td><input data-save id="mCpu"></td><td><input data-save id="cCpu" placeholder="Socket, núcleos..."></td><td><input data-save class="price" id="pCpu" type="number" min="0" step=".01"></td><td><input data-save id="uCpu" type="url"></td><td><textarea data-save id="rCpu"></textarea></td></tr>
+      <tr><td>Placa base</td><td><input data-save id="mMb"></td><td><input data-save id="cMb" placeholder="Socket, chipset, formato..."></td><td><input data-save class="price" id="pMb" type="number" min="0" step=".01"></td><td><input data-save id="uMb" type="url"></td><td><textarea data-save id="rMb"></textarea></td></tr>
+      <tr><td>Memoria RAM</td><td><input data-save id="mRam"></td><td><input data-save id="cRam" placeholder="GB, DDR4/DDR5..."></td><td><input data-save class="price" id="pRam" type="number" min="0" step=".01"></td><td><input data-save id="uRam" type="url"></td><td><textarea data-save id="rRam"></textarea></td></tr>
+      <tr><td>Tarjeta gráfica</td><td><input data-save id="mGpu"></td><td><input data-save id="cGpu" placeholder="VRAM, consumo..."></td><td><input data-save class="price" id="pGpu" type="number" min="0" step=".01"></td><td><input data-save id="uGpu" type="url"></td><td><textarea data-save id="rGpu"></textarea></td></tr>
+      <tr><td>SSD</td><td><input data-save id="mSsd"></td><td><input data-save id="cSsd" placeholder="Capacidad, SATA/M.2..."></td><td><input data-save class="price" id="pSsd" type="number" min="0" step=".01"></td><td><input data-save id="uSsd" type="url"></td><td><textarea data-save id="rSsd"></textarea></td></tr>
+      <tr><td>Fuente</td><td><input data-save id="mPsu"></td><td><input data-save id="cPsu" placeholder="Potencia, conectores..."></td><td><input data-save class="price" id="pPsu" type="number" min="0" step=".01"></td><td><input data-save id="uPsu" type="url"></td><td><textarea data-save id="rPsu"></textarea></td></tr>
+      <tr><td>Caja</td><td><input data-save id="mCase"></td><td><input data-save id="cCase" placeholder="ATX/mATX, espacio..."></td><td><input data-save class="price" id="pCase" type="number" min="0" step=".01"></td><td><input data-save id="uCase" type="url"></td><td><textarea data-save id="rCase"></textarea></td></tr>
+    </tbody>
+  </table>
+
+  <div class="total">TOTAL: <span id="total">0,00</span> €</div>
+
+  <h3>Comprobación de compatibilidad</h3>
+  <div class="checks">
+    <label><input data-save id="ch1" type="checkbox"> CPU y placa base usan el mismo socket.</label>
+    <label><input data-save id="ch2" type="checkbox"> La placa admite el tipo de RAM elegido.</label>
+    <label><input data-save id="ch3" type="checkbox"> La placa dispone de conexión para el SSD.</label>
+    <label><input data-save id="ch4" type="checkbox"> La caja admite el formato de la placa base.</label>
+    <label><input data-save id="ch5" type="checkbox"> La tarjeta gráfica cabe en la caja.</label>
+    <label><input data-save id="ch6" type="checkbox"> La fuente tiene potencia y conectores suficientes.</label>
+  </div>
+
+  <label>Explica cómo has comprobado que los componentes son compatibles.</label><textarea data-save id="compat"></textarea>
+  <label>Si tuvieras 200 € más, ¿qué componente mejorarías primero y por qué?</label><textarea data-save id="mejora"></textarea>
+</section>
+
+<section class="card blue">
+  <h2>Entrega</h2>
+  <p>Cuando termines, pulsa <b>Descargar actividad</b>. Se generará un archivo HTML con tu nombre, respuestas, dibujo y reto final. Entrega ese archivo en Classroom.</p>
+</section>
+</main>
+
+<div class="footerActions">
+  <div class="actions" style="max-width:1180px;margin:auto">
+    <button class="secondary" type="button" onclick="guardar()">💾 Guardar progreso</button>
+    <button class="danger" type="button" onclick="borrarProgreso()">🗑 Borrar progreso</button>
+    <button class="success" type="button" onclick="descargarActividad()">📄 Descargar actividad</button>
+  </div>
+</div>
+
+<script>
+const canvas=document.getElementById('canvas'),ctx=canvas.getContext('2d');
+ctx.lineCap='round';ctx.lineJoin='round';ctx.strokeStyle='#172033';ctx.lineWidth=3;
+let drawing=false,lastX=0,lastY=0;
+function coords(e){const r=canvas.getBoundingClientRect(),p=e.touches?e.touches[0]:e;return[(p.clientX-r.left)*(canvas.width/r.width),(p.clientY-r.top)*(canvas.height/r.height)]}
+function startDraw(e){drawing=true;[lastX,lastY]=coords(e);e.preventDefault()}
+function draw(e){if(!drawing)return;const[x,y]=coords(e);ctx.beginPath();ctx.moveTo(lastX,lastY);ctx.lineTo(x,y);ctx.stroke();lastX=x;lastY=y;e.preventDefault()}
+function endDraw(){drawing=false}
+['mousedown','touchstart'].forEach(x=>canvas.addEventListener(x,startDraw,{passive:false}));
+['mousemove','touchmove'].forEach(x=>canvas.addEventListener(x,draw,{passive:false}));
+['mouseup','mouseleave','touchend','touchcancel'].forEach(x=>canvas.addEventListener(x,endDraw));
+function setPen(n){ctx.lineWidth=n}
+function clearCanvas(){ctx.clearRect(0,0,canvas.width,canvas.height)}
+function getSavables(){return[...document.querySelectorAll('input[data-save],textarea[data-save],select[data-save]')]}
+function guardar(silencioso=false){
+  const data={};getSavables().forEach(el=>data[el.id]=el.type==='checkbox'?el.checked:el.value);
+  data.nombre=document.getElementById('nombre').value;data.grupo=document.getElementById('grupo').value;data.canvas=canvas.toDataURL('image/png');
+  localStorage.setItem('arquitectura4ESO',JSON.stringify(data));if(!silencioso)alert('Progreso guardado en este navegador.')
+}
+function cargar(){
+  const raw=localStorage.getItem('arquitectura4ESO');if(!raw)return;
+  try{
+    const data=JSON.parse(raw);
+    [...getSavables(),document.getElementById('nombre'),document.getElementById('grupo')].forEach(el=>{
+      if(data[el.id]!==undefined){if(el.type==='checkbox')el.checked=data[el.id];else el.value=data[el.id]}
+    });
+    if(data.canvas){const img=new Image();img.onload=()=>ctx.drawImage(img,0,0,canvas.width,canvas.height);img.src=data.canvas}
+    calcularTotal()
+  }catch(e){}
+}
+function borrarProgreso(){if(confirm('¿Seguro que quieres borrar el progreso guardado?')){localStorage.removeItem('arquitectura4ESO');location.reload()}}
+function calcularTotal(){let t=0;document.querySelectorAll('.price').forEach(i=>t+=parseFloat(i.value)||0);document.getElementById('total').textContent=t.toLocaleString('es-ES',{minimumFractionDigits:2,maximumFractionDigits:2});return t}
+document.querySelectorAll('.price').forEach(i=>i.addEventListener('input',calcularTotal));
+document.getElementById('nombre').addEventListener('input',()=>guardar(true));
+document.getElementById('grupo').addEventListener('input',()=>guardar(true));
+getSavables().forEach(el=>el.addEventListener('change',()=>guardar(true)));
+function esc(s=''){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function val(id){return document.getElementById(id)?.value||''}
+function check(id){return document.getElementById(id)?.checked?'Sí':'No'}
+function safeName(s){return s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9]+/g,'_').replace(/^_+|_+$/g,'')}
+function row(t,v){return `<tr><th>${esc(t)}</th><td>${esc(v).replace(/\n/g,'<br>')}</td></tr>`}
+function descargarActividad(){
+  const nombre=val('nombre').trim();
+  if(!nombre){alert('Debes escribir tu nombre y apellidos antes de descargar la actividad.');document.getElementById('nombre').focus();return}
+  guardar(true);
+  const total=calcularTotal().toFixed(2).replace('.',',');
+  const drawing=canvas.toDataURL('image/png');
+  const comps=[['Procesador','mCpu','cCpu','pCpu','uCpu','rCpu'],['Placa base','mMb','cMb','pMb','uMb','rMb'],['Memoria RAM','mRam','cRam','pRam','uRam','rRam'],['Tarjeta gráfica','mGpu','cGpu','pGpu','uGpu','rGpu'],['SSD','mSsd','cSsd','pSsd','uSsd','rSsd'],['Fuente','mPsu','cPsu','pPsu','uPsu','rPsu'],['Caja','mCase','cCase','pCase','uCase','rCase']];
+  const componentRows=comps.map(x=>`<tr><td>${esc(x[0])}</td><td>${esc(val(x[1]))}</td><td>${esc(val(x[2]))}</td><td>${esc(val(x[3]))} €</td><td>${val(x[4])?`<a href="${esc(val(x[4]))}">${esc(val(x[4]))}</a>`:''}</td><td>${esc(val(x[5])).replace(/\n/g,'<br>')}</td></tr>`).join('');
+  const report=`<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>Actividad de ${esc(nombre)}</title><style>
+  body{font-family:Arial,sans-serif;max-width:1000px;margin:30px auto;padding:0 18px;color:#172033}h1{color:#0b4f9c;border-bottom:3px solid #0b4f9c;padding-bottom:8px}
+  h2{margin-top:30px;color:#0b4f9c}table{width:100%;border-collapse:collapse;margin:10px 0 22px}th,td{border:1px solid #ccd5df;padding:8px;vertical-align:top}th{background:#eef4fb;text-align:left}img{max-width:100%;border:1px solid #ccd5df}
+  </style></head><body>
+  <h1>Arquitectura de ordenadores · 4.º ESO</h1><p><b>Alumno/a:</b> ${esc(nombre)} &nbsp;&nbsp; <b>Grupo:</b> ${esc(val('grupo'))}</p><p><b>Fecha:</b> ${new Date().toLocaleString('es-ES')}</p>
+  <h2>1. Reconoce los componentes</h2><table>${row('A',val('compA'))}${row('B',val('compB'))}${row('C',val('compC'))}${row('D',val('compD'))}${row('E',val('compE'))}</table>
+  <h2>2. ¿Dónde va cada componente?</h2><table>${row('Zona 1',val('loc1'))}${row('Zona 2',val('loc2'))}${row('Zona 3',val('loc3'))}${row('Zona 4',val('loc4'))}${row('Zona 5',val('loc5'))}${row('Explicación',val('locExplain'))}</table>
+  <h2>3. Función de los componentes</h2><table>${row('Placa base',val('fPlaca'))}${row('RAM',val('fRam'))}${row('Tarjeta gráfica',val('fGpu'))}${row('Disco/SSD',val('fSsd'))}${row('Fuente',val('fPsu'))}${row('Microprocesador',val('fCpu'))}</table>
+  <h2>4. Conexiones y compatibilidad</h2><table>${row('RAM → placa',val('qRam'))}${row('Ranura gráfica',val('qGpu'))}${row('Conexión SSD',val('qSsd'))}${row('CPU y placa',val('qSocket'))}${row('Fuente',val('qPsu'))}</table>
+  <h2>5. Dibujo de la arquitectura</h2><img src="${drawing}" alt="Dibujo del alumno">
+  <h2>6. Situaciones reales</h2><table>${row('Muchas aplicaciones',val('s1'))}${row('SSD rápido y poca RAM',val('s2'))}${row('Baja fluidez gráfica',val('s3'))}</table>
+  <h2>7. Reto final</h2><p><b>Tipo de equipo:</b> ${esc(val('perfil'))}</p>
+  <table><thead><tr><th>Componente</th><th>Modelo</th><th>Característica</th><th>Precio</th><th>Enlace</th><th>Justificación</th></tr></thead><tbody>${componentRows}</tbody></table>
+  <p><b>Total:</b> ${total} €</p>
+  <table>${row('CPU y placa: mismo socket',check('ch1'))}${row('Placa compatible con RAM',check('ch2'))}${row('Conexión disponible para SSD',check('ch3'))}${row('Caja compatible con placa',check('ch4'))}${row('La gráfica cabe en la caja',check('ch5'))}${row('Fuente suficiente',check('ch6'))}${row('Cómo comprobó compatibilidad',val('compat'))}${row('Qué mejoraría con 200 € más',val('mejora'))}</table>
+  </body></html>`;
+  const blob=new Blob([report],{type:'text/html;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`Arquitectura_Ordenadores_${safeName(nombre)||'Alumno'}.html`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+window.addEventListener('load',cargar);
+</script>
+</body>
+</html>
