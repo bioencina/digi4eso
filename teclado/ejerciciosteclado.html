@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reto EducaAndOS · 4.º ESO</title>
+
+<style>
+:root{
+    --azul:#2563a6;
+    --azul-oscuro:#174a7e;
+    --azul-claro:#eaf3fb;
+    --verde:#287a50;
+    --verde-claro:#e9f6ee;
+    --naranja:#c77716;
+    --naranja-claro:#fff4df;
+    --fondo:#f4f6f8;
+    --texto:#222;
+    --borde:#cbd3dc;
+}
+
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Arial, Helvetica, sans-serif;
+    background:var(--fondo);
+    color:var(--texto);
+}
+
+main{
+    max-width:1050px;
+    margin:auto;
+    padding:25px;
+}
+
+header{
+    background:white;
+    border-top:6px solid var(--azul);
+    border-radius:10px;
+    padding:22px;
+    margin-bottom:20px;
+}
+
+h1{
+    margin:0 0 8px;
+    color:var(--azul-oscuro);
+}
+
+h2{
+    color:var(--azul-oscuro);
+    border-bottom:2px solid var(--azul);
+    padding-bottom:8px;
+}
+
+.card{
+    background:white;
+    border:1px solid var(--borde);
+    border-radius:12px;
+    padding:20px;
+    margin:20px 0;
+    box-shadow:0 2px 6px rgba(0,0,0,.05);
+}
+
+.identificacion{
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+label{
+    line-height:1.6;
+}
+
+input[type="text"]{
+    padding:9px;
+    font-size:16px;
+    border:1px solid #9aa8b7;
+    border-radius:6px;
+    margin-left:6px;
+}
+
+.aviso{
+    background:var(--naranja-claro);
+    border-left:5px solid var(--naranja);
+    padding:12px;
+    margin:15px 0;
+    border-radius:5px;
+}
+
+.info{
+    background:var(--azul-claro);
+    border-left:5px solid var(--azul);
+    padding:12px;
+    margin:15px 0;
+}
+
+textarea{
+    width:100%;
+    min-height:230px;
+    padding:14px;
+    font:16px/1.55 Arial, sans-serif;
+    border:2px solid #9aa8b7;
+    border-radius:8px;
+    resize:vertical;
+}
+
+textarea:focus{
+    outline:none;
+    border-color:var(--azul);
+    box-shadow:0 0 0 3px var(--azul-claro);
+}
+
+button{
+    background:var(--azul);
+    color:white;
+    border:2px solid var(--azul);
+    border-radius:8px;
+    padding:10px 18px;
+    margin:8px 6px 8px 0;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+button:hover{
+    background:var(--azul-oscuro);
+}
+
+button:disabled{
+    background:#aab2ba;
+    border-color:#aab2ba;
+    cursor:not-allowed;
+}
+
+.crono{
+    font:700 28px "Courier New", monospace;
+    color:var(--naranja);
+}
+
+.resultado{
+    min-height:25px;
+    margin-top:12px;
+    font-weight:bold;
+    color:var(--verde);
+}
+
+#scrollTouch{
+    height:170px;
+    overflow-y:auto;
+    border:2px solid var(--azul);
+    background:var(--azul-claro);
+    border-radius:8px;
+    padding:12px;
+}
+
+.espacio{
+    height:300px;
+}
+
+.oculto{
+    display:none;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th,td{
+    border:1px solid var(--borde);
+    padding:9px;
+    text-align:left;
+}
+
+th{
+    background:var(--azul-claro);
+}
+
+@media(max-width:700px){
+    main{padding:12px}
+    .identificacion{display:block}
+    input[type="text"]{
+        display:block;
+        width:100%;
+        margin:5px 0 15px;
+    }
+}
+</style>
+</head>
+
+<body>
+<main>
+
+<header>
+<h1>Reto EducaAndOS · 4.º ESO</h1>
+
+<p>
+Demuestra que sabes utilizar el teclado, editar un texto,
+moverte por EducaAndOS, manejar el touchpad y trabajar
+de forma segura con tu cuenta educativa.
+</p>
+
+<p>
+<strong>Tiempo total:</strong>
+<span id="tiempoTotal" class="crono">00:00</span>
+</p>
+</header>
+
+
+<div class="card identificacion">
+
+<label>
+<strong>Nombre y apellidos</strong>
+<input type="text" id="nombre">
+</label>
+
+<label>
+<strong>Grupo</strong>
+<input type="text" id="grupo" placeholder="4.º ESO">
+</label>
+
+</div>
+
+
+<!-- RETO 1 -->
+
+<section class="card">
+
+<h2>Reto 1 · Escribe</h2>
+
+<p>
+Escribe exactamente el siguiente texto.
+Mientras lo haces también estarás repasando algunas
+normas importantes para trabajar con los equipos del aula.
+</p>
+
+<div class="aviso">
+<strong>No puedes copiar y pegar.</strong>
+El cronómetro empieza cuando escribes el primer carácter.
+</div>
+
+<h3>Texto modelo</h3>
+
+<div id="modelo1">
+
+<p>
+Trabajar con un ordenador no consiste únicamente en saber abrir un
+programa o entrar en Internet. En el aula utilizamos equipos compartidos
+y debemos saber qué información pertenece al ordenador y qué información
+pertenece a nuestra cuenta.
+</p>
+
+<p>
+Cuando iniciamos una sesión con nuestra cuenta educativa accedemos a
+nuestro espacio de trabajo. Desde Gmail podemos entrar en Drive,
+Classroom, Documentos y otras aplicaciones de Google. Antes de comenzar
+debemos comprobar que la cuenta abierta es realmente la nuestra.
+</p>
+
+<p>
+El disco del equipo no es nuestro espacio personal. Si guardamos un
+trabajo únicamente en Escritorio, Documentos o Descargas, nadie puede
+garantizarnos que continúe allí la próxima vez que utilicemos el
+ordenador. Los archivos importantes deben guardarse en nuestro Drive
+educativo.
+</p>
+
+<p>
+En un equipo compartido tampoco debemos guardar nuestra contraseña en
+el navegador. Al terminar debemos cerrar correctamente nuestra sesión de
+Google. Cerrar una pestaña o cerrar Firefox no significa necesariamente
+que hayamos cerrado nuestra cuenta.
+</p>
+
+<p>
+El teclado nos permite trabajar con rapidez. También debemos saber
+escribir caracteres como @, €, #, %, ¿, ?, =, ( ), / y &amp;.
+Para ello utilizamos teclas como Mayús y Alt Gr.
+</p>
+
+<p>
+Conocer nuestro equipo nos permite trabajar de forma autónoma,
+rápida y segura.
+</p>
+
+</div>
+
+<h3>Escribe aquí</h3>
+
+<textarea id="texto1" spellcheck="false"></textarea>
+
+<p>
+Tiempo empleado:
+<span id="tiempo1" class="crono">00:00</span>
+</p>
+
+<button type="button" id="comprobar1">
+COMPROBAR TEXTO
+</button>
+
+<div id="resultado1" class="resultado"></div>
+
+</section>
+
+
+<!-- RETO 2 -->
+
+<section class="card">
+
+<h2>Reto 2 · Edita, no vuelvas a escribir</h2>
+
+<p>
+Ahora el texto ya está escrito. Tu trabajo consiste en
+<strong>modificar únicamente lo necesario</strong>.
+</p>
+
+<div class="aviso">
+Tienes <strong>2 minutos</strong>.
+Utiliza las flechas, Supr/Retroceso e Inicio/Fin.
+No puedes pegar texto ni seleccionar con el ratón.
+</div>
+
+<p><strong>Realiza estos cambios:</strong></p>
+
+<ol>
+<li><code>#24</code> por <code>#42</code>.</li>
+<li><code>3 artículos</code> por <code>5 artículos</code>.</li>
+<li><code>18 €</code> por <code>25 €</code>.</li>
+<li><code>aula4@educa.es</code> por <code>grupo4@educa.es</code>.</li>
+<li><code>5 %</code> por <code>10 %</code>.</li>
+<li><code>Sí</code> por <code>No</code>.</li>
+<li><code>17,10 €</code> por <code>22,50 €</code>.</li>
+</ol>
+
+<button type="button" id="iniciar2">
+COMENZAR RETO 2
+</button>
+
+<p>
+Tiempo restante:
+<span id="tiempo2" class="crono">02:00</span>
+</p>
+
+<textarea id="texto2" disabled spellcheck="false">Pedido #24: Ana compró 3 artículos por 18 €; envió el resultado a aula4@educa.es. ¿Descuento = 5 %? Sí: precio final = 17,10 €.</textarea>
+
+<p id="registro2">
+Flechas: 0 · Supr/Retroceso: 0 · Inicio/Fin: 0
+</p>
+
+<button type="button" id="comprobar2">
+COMPROBAR
+</button>
+
+<div id="resultado2" class="resultado"></div>
+
+</section>
+
+
+<!-- RETO 3 -->
+
+<section class="card">
+
+<h2>Reto 3 · Busca, captura y adjunta</h2>
+
+<div class="info">
+Lee todas las instrucciones antes de pulsar
+<strong>COMENZAR</strong>.
+</div>
+
+<p><strong>Tienes 3 minutos.</strong></p>
+
+<ol>
+<li>Abre el buscador de aplicaciones de EducaAndOS.</li>
+<li>Localiza y abre <strong>LibreOffice Writer</strong>.</li>
+<li>Regresa a esta actividad sin cerrar Writer.</li>
+<li>Haz una <strong>captura de pantalla</strong> en la que se vea Writer abierto.</li>
+<li>Guarda la captura en el equipo.</li>
+<li>Vuelve aquí y adjunta la captura.</li>
+</ol>
+
+<button type="button" id="iniciar3">
+COMENZAR RETO 3
+</button>
+
+<p>
+Tiempo restante:
+<span id="tiempo3" class="crono">03:00</span>
+</p>
+
+<p>
+<input type="file" id="captura" accept="image/*" disabled>
+</p>
+
+<div id="resultado3" class="resultado"></div>
+
+</section>
+
+
+<!-- RETO 4 -->
+
+<section class="card">
+
+<h2>Reto 4 · Solo touchpad</h2>
+
+<p>
+Ahora no necesitas escribir. Demuestra que sabes manejar
+el touchpad del portátil.
+</p>
+
+<p><strong>Tienes 1 minuto y 30 segundos.</strong></p>
+
+<button type="button" id="iniciar4">
+COMENZAR RETO 4
+</button>
+
+<p>
+Tiempo restante:
+<span id="tiempo4" class="crono">01:30</span>
+</p>
+
+<div id="pruebasTouch" class="oculto">
+
+<h3>1 · Clic</h3>
+
+<p>Haz un único clic sobre este botón.</p>
+
+<button type="button" id="clicSimple">
+CLIC
+</button>
+
+
+<h3>2 · Doble clic</h3>
+
+<p>Abre la carpeta haciendo doble clic.</p>
+
+<button type="button" id="dobleClic">
+📁 CARPETA
+</button>
+
+
+<h3>3 · Botón derecho</h3>
+
+<p>Haz clic con el botón derecho sobre este archivo.</p>
+
+<button type="button" id="clicDerecho">
+ARCHIVO
+</button>
+
+
+<h3>4 · Desplazamiento</h3>
+
+<p>
+Utiliza el desplazamiento del touchpad para encontrar
+la palabra escondida.
+</p>
+
+<div id="scrollTouch">
+
+<p>Sigue bajando...</p>
+
+<div class="espacio"></div>
+
+<button type="button" id="palabraFinal">
+EDUCAANDOS
+</button>
+
+</div>
+
+</div>
+
+<div id="resultado4" class="resultado"></div>
+
+</section>
+
+
+<!-- RETO 5 -->
+
+<section class="card">
+
+<h2>Reto 5 · Tu cuenta educativa</h2>
+
+<div class="aviso">
+
+<strong>IMPORTANTE:</strong>
+
+Nunca introduzcas tu contraseña en esta actividad.
+La contraseña solo debe escribirse en la página oficial
+de acceso utilizada en clase.
+
+</div>
+
+<p><strong>Tienes 3 minutos.</strong></p>
+
+<ol>
+
+<li>
+Abre una nueva pestaña y entra en <strong>Gmail</strong>
+con tu cuenta educativa.
+</li>
+
+<li>
+Comprueba que la cuenta abierta es realmente la tuya.
+</li>
+
+<li>
+Desde el <strong>lanzador de aplicaciones de Google</strong>,
+abre Drive.
+</li>
+
+<li>
+Desde el lanzador vuelve a Gmail.
+</li>
+
+<li>
+<strong>Cierra correctamente la sesión de Google.</strong>
+Cerrar una pestaña o cerrar Firefox no es suficiente.
+</li>
+
+<li>
+Regresa a esta actividad.
+</li>
+
+</ol>
+
+<button type="button" id="iniciar5">
+COMENZAR RETO 5
+</button>
+
+<p>
+Tiempo restante:
+<span id="tiempo5" class="crono">03:00</span>
+</p>
+
+<div id="comprobaciones5" class="oculto">
+
+<p>
+<label>
+<input type="checkbox" class="check5">
+He comprobado que la cuenta abierta era la mía.
+</label>
+</p>
+
+<p>
+<label>
+<input type="checkbox" class="check5">
+He abierto Drive desde el lanzador de aplicaciones.
+</label>
+</p>
+
+<p>
+<label>
+<input type="checkbox" class="check5">
+He vuelto a Gmail.
+</label>
+</p>
+
+<p>
+<label>
+<input type="checkbox" class="check5">
+He cerrado correctamente mi sesión de Google.
+</label>
+</p>
+
+<button type="button" id="finalizar5">
+FINALIZAR RETO 5
+</button>
+
+</div>
+
+<div id="resultado5" class="resultado"></div>
+
+</section>
+
+
+<!-- ENTREGA -->
+
+<section class="card">
+
+<h2>Entrega final</h2>
+
+<p>
+Cuando hayas superado los cinco retos podrás generar
+el archivo que entregarás en Classroom.
+</p>
+
+<div id="resumen"></div>
+
+<button type="button" id="generar">
+GENERAR ARCHIVO DE ENTREGA
+</button>
+
+<div id="mensajeFinal" class="resultado"></div>
+
+</section>
+
+</main>
+
+
+<script>
+(function(){
+
+"use strict";
+
+/* ------------------------------
+   DATOS GENERALES
+------------------------------ */
+
+let inicioTotal = null;
+let intervaloTotal = null;
+
+let resultados = {
+    r1:null,
+    r2:null,
+    r3:null,
+    r4:null,
+    r5:null
+};
+
+let capturaBase64 = null;
+
+function formato(ms){
+
+    ms = Math.max(0, ms);
+
+    const segundos = Math.floor(ms / 1000);
+    const minutos = Math.floor(segundos / 60);
+    const resto = segundos % 60;
+
+    return String(minutos).padStart(2,"0")
+        + ":"
+        + String(resto).padStart(2,"0");
+}
+
+function identidadCorrecta(){
+
+    const nombre =
+        document.getElementById("nombre").value.trim();
+
+    const grupo =
+        document.getElementById("grupo").value.trim();
+
+    if(!nombre || !grupo){
+
+        alert("Escribe primero tu nombre, apellidos y grupo.");
+        return false;
+    }
+
+    return true;
+}
+
+function iniciarTiempoTotal(){
+
+    if(inicioTotal !== null) return;
+
+    inicioTotal = Date.now();
+
+    intervaloTotal = setInterval(function(){
+
+        document.getElementById("tiempoTotal")
+        .textContent =
+        formato(Date.now() - inicioTotal);
+
+    },250);
+}
+
+
+/* ------------------------------
+   RETO 1
+------------------------------ */
+
+const original1 =
+`Trabajar con un ordenador no consiste únicamente en saber abrir un programa o entrar en Internet. En el aula utilizamos equipos compartidos y debemos saber qué información pertenece al ordenador y qué información pertenece a nuestra cuenta.
+
+Cuando iniciamos una sesión con nuestra cuenta educativa accedemos a nuestro espacio de trabajo. Desde Gmail podemos entrar en Drive, Classroom, Documentos y otras aplicaciones de Google. Antes de comenzar debemos comprobar que la cuenta abierta es realmente la nuestra.
+
+El disco del equipo no es nuestro espacio personal. Si guardamos un trabajo únicamente en Escritorio, Documentos o Descargas, nadie puede garantizarnos que continúe allí la próxima vez que utilicemos el ordenador. Los archivos importantes deben guardarse en nuestro Drive educativo.
+
+En un equipo compartido tampoco debemos guardar nuestra contraseña en el navegador. Al terminar debemos cerrar correctamente nuestra sesión de Google. Cerrar una pestaña o cerrar Firefox no significa necesariamente que hayamos cerrado nuestra cuenta.
+
+El teclado nos permite trabajar con rapidez. También debemos saber escribir caracteres como @, €, #, %, ¿, ?, =, ( ), / y &. Para ello utilizamos teclas como Mayús y Alt Gr.
+
+Conocer nuestro equipo nos permite trabajar de forma autónoma, rápida y segura.`;
+
+let inicio1 = null;
+let intervalo1 = null;
+
+const texto1 = document.getElementById("texto1");
+
+texto1.addEventListener("paste",function(e){
+
+    e.preventDefault();
+
+    document.getElementById("resultado1")
+    .textContent =
+    "No puedes pegar. Debes escribir el texto.";
+
+});
+
+texto1.addEventListener("drop",function(e){
+    e.preventDefault();
+});
+
+texto1.addEventListener("input",function(){
+
+    if(inicio1 !== null) return;
+
+    if(!identidadCorrecta()){
+        texto1.value = "";
+        return;
+    }
+
+    iniciarTiempoTotal();
+
+    inicio1 = Date.now();
+
+    intervalo1 = setInterval(function(){
+
+        document.getElementById("tiempo1")
+        .textContent =
+        formato(Date.now() - inicio1);
+
+    },250);
+
+});
+
+function normalizar(texto){
+
+    return texto
+        .replace(/\r/g,"")
+        .replace(/[ \t]+\n/g,"\n")
+        .trim();
+}
+
+document.getElementById("comprobar1")
+.addEventListener("click",function(){
+
+    if(inicio1 === null){
+        document.getElementById("resultado1")
+        .textContent =
+        "Todavía no has comenzado.";
+        return;
+    }
+
+    if(normalizar(texto1.value) === normalizar(original1)){
+
+        clearInterval(intervalo1);
+
+        const tiempo = Date.now() - inicio1;
+
+        resultados.r1 = tiempo;
+
+        document.getElementById("resultado1")
+        .textContent =
+        "✓ RETO 1 SUPERADO · " + formato(tiempo);
+
+        actualizarResumen();
+
+    }else{
+
+        document.getElementById("resultado1")
+        .textContent =
+        "Hay diferencias con el texto original. Revísalo.";
+
+    }
+
+});
+
+
+/* ------------------------------
+   RETO 2
+------------------------------ */
+
+const resultadoCorrecto2 =
+"Pedido #42: Ana compró 5 artículos por 25 €; envió el resultado a grupo4@educa.es. ¿Descuento = 10 %? No: precio final = 22,50 €.";
+
+const texto2 =
+document.getElementById("texto2");
+
+let inicio2 = null;
+let intervalo2 = null;
+
+let flechas = 0;
+let borrar = 0;
+let inicioFin = 0;
+
+texto2.addEventListener("paste",function(e){
+    e.preventDefault();
+});
+
+texto2.addEventListener("drop",function(e){
+    e.preventDefault();
+});
+
+texto2.addEventListener("mousedown",function(e){
+
+    if(inicio2 !== null){
+        e.preventDefault();
+    }
+
+});
+
+texto2.addEventListener("keydown",function(e){
+
+    if([
+        "ArrowLeft",
+        "ArrowRight",
+        "ArrowUp",
+        "ArrowDown"
+    ].includes(e.key)){
+        flechas++;
+    }
+
+    if([
+        "Backspace",
+        "Delete"
+    ].includes(e.key)){
+        borrar++;
+    }
+
+    if([
+        "Home",
+        "End"
+    ].includes(e.key)){
+        inicioFin++;
+    }
+
+    document.getElementById("registro2")
+    .textContent =
+    "Flechas: " + flechas +
+    " · Supr/Retroceso: " + borrar +
+    " · Inicio/Fin: " + inicioFin;
+
+});
+
+document.getElementById("iniciar2")
+.addEventListener("click",function(){
+
+    if(!identidadCorrecta()) return;
+
+    iniciarTiempoTotal();
+
+    inicio2 = Date.now();
+
+    texto2.disabled = false;
+    texto2.focus();
+
+    this.disabled = true;
+
+    intervalo2 = setInterval(function(){
+
+        const restante =
+            120000 - (Date.now() - inicio2);
+
+        document.getElementById("tiempo2")
+        .textContent = formato(restante);
+
+        if(restante <= 0){
+
+            clearInterval(intervalo2);
+
+            document.getElementById("tiempo2")
+            .textContent = "00:00";
+
+            document.getElementById("resultado2")
+            .textContent =
+            "⏱ Tiempo finalizado. Termina los cambios.";
+
+        }
+
+    },250);
+
+});
+
+document.getElementById("comprobar2")
+.addEventListener("click",function(){
+
+    if(inicio2 === null){
+
+        document.getElementById("resultado2")
+        .textContent =
+        "Pulsa primero COMENZAR RETO 2.";
+
+        return;
+    }
+
+    if(texto2.value === resultadoCorrecto2){
+
+        clearInterval(intervalo2);
+
+        const tiempo =
+            Date.now() - inicio2;
+
+        resultados.r2 = {
+            tiempo:tiempo,
+            flechas:flechas,
+            borrar:borrar,
+            inicioFin:inicioFin,
+            dentro:tiempo <= 120000
+        };
+
+        document.getElementById("resultado2")
+        .textContent =
+        "✓ RETO 2 SUPERADO · " +
+        formato(tiempo) +
+        " · Flechas: " + flechas +
+        " · Supr/Retroceso: " + borrar +
+        " · Inicio/Fin: " + inicioFin;
+
+        actualizarResumen();
+
+    }else{
+
+        document.getElementById("resultado2")
+        .textContent =
+        "El texto todavía no es correcto.";
+
+    }
+
+});
+
+
+/* ------------------------------
+   RETO 3
+------------------------------ */
+
+let inicio3 = null;
+let intervalo3 = null;
+
+document.getElementById("iniciar3")
+.addEventListener("click",function(){
+
+    if(!identidadCorrecta()) return;
+
+    iniciarTiempoTotal();
+
+    inicio3 = Date.now();
+
+    this.disabled = true;
+
+    document.getElementById("captura")
+    .disabled = false;
+
+    intervalo3 = setInterval(function(){
+
+        const restante =
+            180000 - (Date.now() - inicio3);
+
+        document.getElementById("tiempo3")
+        .textContent = formato(restante);
+
+        if(restante <= 0){
+
+            clearInterval(intervalo3);
+
+            document.getElementById("tiempo3")
+            .textContent = "00:00";
+
+        }
+
+    },250);
+
+});
+
+document.getElementById("captura")
+.addEventListener("change",function(){
+
+    if(!this.files || !this.files[0]) return;
+
+    const archivo = this.files[0];
+
+    if(!archivo.type.startsWith("image/")){
+
+        document.getElementById("resultado3")
+        .textContent =
+        "El archivo seleccionado debe ser una imagen.";
+
+        return;
+    }
+
+    const lector = new FileReader();
+
+    lector.onload = function(){
+
+        capturaBase64 = lector.result;
+
+        clearInterval(intervalo3);
+
+        const tiempo =
+            Date.now() - inicio3;
+
+        resultados.r3 = {
+            tiempo:tiempo,
+            archivo:archivo.name,
+            dentro:tiempo <= 180000
+        };
+
+        document.getElementById("resultado3")
+        .textContent =
+        "✓ RETO 3 SUPERADO · " +
+        formato(tiempo) +
+        " · " +
+        archivo.name;
+
+        actualizarResumen();
+
+    };
+
+    lector.readAsDataURL(archivo);
+
+});
+
+
+/* ------------------------------
+   RETO 4
+------------------------------ */
+
+let inicio4 = null;
+let intervalo4 = null;
+
+let touch = {
+    clic:false,
+    doble:false,
+    derecho:false,
+    scroll:false
+};
+
+document.getElementById("iniciar4")
+.addEventListener("click",function(){
+
+    if(!identidadCorrecta()) return;
+
+    iniciarTiempoTotal();
+
+    inicio4 = Date.now();
+
+    this.disabled = true;
+
+    document.getElementById("pruebasTouch")
+    .classList.remove("oculto");
+
+    intervalo4 = setInterval(function(){
+
+        const restante =
+            90000 - (Date.now() - inicio4);
+
+        document.getElementById("tiempo4")
+        .textContent = formato(restante);
+
+        if(restante <= 0){
+
+            clearInterval(intervalo4);
+
+            document.getElementById("tiempo4")
+            .textContent = "00:00";
+
+        }
+
+    },250);
+
+});
+
+function comprobarTouch(){
+
+    document.getElementById("resultado4")
+    .textContent =
+    "Clic " + (touch.clic ? "✓" : "○") +
+    " · Doble clic " + (touch.doble ? "✓" : "○") +
+    " · Botón derecho " + (touch.derecho ? "✓" : "○") +
+    " · Desplazamiento " + (touch.scroll ? "✓" : "○");
+
+    if(
+        touch.clic &&
+        touch.doble &&
+        touch.derecho &&
+        touch.scroll
+    ){
+
+        clearInterval(intervalo4);
+
+        const tiempo =
+            Date.now() - inicio4;
+
+        resultados.r4 = {
+            tiempo:tiempo,
+            dentro:tiempo <= 90000
+        };
+
+        document.getElementById("resultado4")
+        .textContent =
+        "✓ RETO 4 SUPERADO · " +
+        formato(tiempo);
+
+        actualizarResumen();
+    }
+}
+
+document.getElementById("clicSimple")
+.addEventListener("click",function(){
+
+    touch.clic = true;
+    comprobarTouch();
+
+});
+
+document.getElementById("dobleClic")
+.addEventListener("dblclick",function(){
+
+    touch.doble = true;
+    comprobarTouch();
+
+});
+
+document.getElementById("clicDerecho")
+.addEventListener("contextmenu",function(e){
+
+    e.preventDefault();
+
+    touch.derecho = true;
+    comprobarTouch();
+
+});
+
+document.getElementById("palabraFinal")
+.addEventListener("click",function(){
+
+    touch.scroll = true;
+    comprobarTouch();
+
+});
+
+
+/* ------------------------------
+   RETO 5
+------------------------------ */
+
+let inicio5 = null;
+let intervalo5 = null;
+
+document.getElementById("iniciar5")
+.addEventListener("click",function(){
+
+    if(!identidadCorrecta()) return;
+
+    iniciarTiempoTotal();
+
+    inicio5 = Date.now();
+
+    this.disabled = true;
+
+    document.getElementById("comprobaciones5")
+    .classList.remove("oculto");
+
+    intervalo5 = setInterval(function(){
+
+        const restante =
+            180000 - (Date.now() - inicio5);
+
+        document.getElementById("tiempo5")
+        .textContent = formato(restante);
+
+        if(restante <= 0){
+
+            clearInterval(intervalo5);
+
+            document.getElementById("tiempo5")
+            .textContent = "00:00";
+
+        }
+
+    },250);
+
+});
+
+document.getElementById("finalizar5")
+.addEventListener("click",function(){
+
+    const checks =
+        Array.from(
+            document.querySelectorAll(".check5")
+        );
+
+    if(!checks.every(function(c){
+        return c.checked;
+    })){
+
+        document.getElementById("resultado5")
+        .textContent =
+        "Todavía no has completado todas las acciones.";
+
+        return;
+    }
+
+    clearInterval(intervalo5);
+
+    const tiempo =
+        Date.now() - inicio5;
+
+    resultados.r5 = {
+        tiempo:tiempo,
+        dentro:tiempo <= 180000
+    };
+
+    document.getElementById("resultado5")
+    .textContent =
+    "✓ RETO 5 SUPERADO · " +
+    formato(tiempo);
+
+    actualizarResumen();
+
+});
+
+
+/* ------------------------------
+   RESUMEN
+------------------------------ */
+
+function actualizarResumen(){
+
+    const completos =
+        Object.values(resultados)
+        .every(function(r){
+            return r !== null;
+        });
+
+    if(completos){
+
+        document.getElementById("resumen")
+        .innerHTML =
+        '<div class="info">' +
+        '<strong>✓ Has superado los cinco retos.</strong><br>' +
+        'Ya puedes generar el archivo de entrega.' +
+        '</div>';
+
+    }
+}
+
+
+/* ------------------------------
+   GENERAR ENTREGA
+------------------------------ */
+
+document.getElementById("generar")
+.addEventListener("click",function(){
+
+    const completos =
+        Object.values(resultados)
+        .every(function(r){
+            return r !== null;
+        });
+
+    if(!completos){
+
+        document.getElementById("mensajeFinal")
+        .textContent =
+        "Debes completar los cinco retos antes de generar la entrega.";
+
+        return;
+    }
+
+    const nombre =
+        document.getElementById("nombre")
+        .value.trim();
+
+    const grupo =
+        document.getElementById("grupo")
+        .value.trim();
+
+    const total =
+        Date.now() - inicioTotal;
+
+    clearInterval(intervaloTotal);
+
+    function dentro(valor){
+        return valor ? "Dentro del tiempo" : "Fuera de tiempo";
+    }
+
+    const contenido =
+`<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Entrega Reto EducaAndOS</title>
+<style>
+body{
+font-family:Arial,sans-serif;
+max-width:900px;
+margin:30px auto;
+padding:20px;
+line-height:1.5;
+}
+h1{color:#174a7e}
+table{
+border-collapse:collapse;
+width:100%;
+}
+th,td{
+border:1px solid #999;
+padding:9px;
+text-align:left;
+}
+th{background:#eaf3fb}
+img{
+max-width:100%;
+border:1px solid #777;
+margin-top:10px;
+}
+</style>
+</head>
+<body>
+
+<h1>Reto EducaAndOS · Entrega</h1>
+
+<p>
+<strong>Alumno/a:</strong> ${nombre}<br>
+<strong>Grupo:</strong> ${grupo}<br>
+<strong>Tiempo total:</strong> ${formato(total)}
+</p>
+
+<table>
+
+<tr>
+<th>Reto</th>
+<th>Tiempo</th>
+<th>Resultado</th>
+</tr>
+
+<tr>
+<td>1 · Mecanografía</td>
+<td>${formato(resultados.r1)}</td>
+<td>Superado</td>
+</tr>
+
+<tr>
+<td>2 · Edición</td>
+<td>${formato(resultados.r2.tiempo)}</td>
+<td>
+${dentro(resultados.r2.dentro)}<br>
+Flechas: ${resultados.r2.flechas}<br>
+Supr/Retroceso: ${resultados.r2.borrar}<br>
+Inicio/Fin: ${resultados.r2.inicioFin}
+</td>
+</tr>
+
+<tr>
+<td>3 · Aplicación y captura</td>
+<td>${formato(resultados.r3.tiempo)}</td>
+<td>
+${dentro(resultados.r3.dentro)}<br>
+${resultados.r3.archivo}
+</td>
+</tr>
+
+<tr>
+<td>4 · Touchpad</td>
+<td>${formato(resultados.r4.tiempo)}</td>
+<td>${dentro(resultados.r4.dentro)}</td>
+</tr>
+
+<tr>
+<td>5 · Cuenta educativa</td>
+<td>${formato(resultados.r5.tiempo)}</td>
+<td>${dentro(resultados.r5.dentro)}</td>
+</tr>
+
+</table>
+
+<h2>Captura de pantalla del Reto 3</h2>
+
+<img src="${capturaBase64}" alt="Captura de LibreOffice Writer">
+
+</body>
+</html>`;
+
+    const blob =
+        new Blob(
+            [contenido],
+            {type:"text/html;charset=utf-8"}
+        );
+
+    const url =
+        URL.createObjectURL(blob);
+
+    const enlace =
+        document.createElement("a");
+
+    const nombreSeguro =
+        nombre
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g,"")
+        .replace(/[^a-zA-Z0-9]+/g,"_")
+        .replace(/^_+|_+$/g,"");
+
+    enlace.href = url;
+
+    enlace.download =
+        "4ESO_" +
+        nombreSeguro +
+        "_RetoEducaAndOS.html";
+
+    document.body.appendChild(enlace);
+
+    enlace.click();
+
+    enlace.remove();
+
+    setTimeout(function(){
+        URL.revokeObjectURL(url);
+    },1000);
+
+    document.getElementById("mensajeFinal")
+    .textContent =
+    "✓ Archivo generado. Este es el archivo que debes entregar en Classroom.";
+
+});
+
+})();
+</script>
+
+</body>
+</html>
