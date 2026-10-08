@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Misión: domina tu sistema operativo · 4.º ESO</title>
+<style>
+:root{--bg:#eef2f7;--card:#fff;--ink:#172033;--mut:#64748b;--blue:#2563eb;--green:#15803d;--red:#b91c1c;--amber:#b45309;--line:#d8e0ea}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif}
+header{position:sticky;top:0;z-index:10;background:#172033;color:white;padding:12px 18px}
+.head{max-width:1000px;margin:auto;display:flex;justify-content:space-between;gap:14px;align-items:center;flex-wrap:wrap}
+.score{font-weight:800;background:#334155;border-radius:999px;padding:7px 12px}
+main{max-width:1000px;margin:auto;padding:20px}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;margin:16px 0;box-shadow:0 5px 16px #0f172a0d}
+h1,h2,h3{margin-top:0}.muted{color:var(--mut)}.progress{height:11px;background:#dbe3ec;border-radius:999px;overflow:hidden}.bar{height:100%;width:0;background:var(--blue);transition:.25s}
+.challenge{border-top:1px solid var(--line);padding:24px 0}.challenge:first-child{border-top:0}.mission{background:#eff6ff;border-left:5px solid var(--blue);padding:14px;border-radius:9px;margin:10px 0}
+textarea{width:100%;min-height:110px;resize:vertical;padding:12px;border:1px solid #aebccc;border-radius:9px;font:inherit;line-height:1.4}
+button{font:inherit}.btn{border:0;border-radius:9px;background:var(--blue);color:white;font-weight:750;padding:10px 15px;cursor:pointer;margin-top:9px}.btn:disabled{opacity:.55;cursor:not-allowed}
+.feedback{margin-top:10px;font-weight:700}.ok{color:var(--green)}.bad{color:var(--red)}
+.hint{background:#fff7ed;border:1px solid #fed7aa;color:#8a3b0a;border-radius:9px;padding:12px;margin-top:10px}
+.learn{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:9px;padding:12px;margin-top:10px}.solution{background:#fef2f2;border:1px solid #fecaca;border-radius:9px;padding:12px;margin-top:10px;color:#7f1d1d}.done{background:#fbfffc}
+.lock{background:#f8fafc;text-align:center;padding:32px}.hidden{display:none!important}
+.osgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.os{border:2px solid var(--line);background:white;border-radius:14px;padding:25px;cursor:pointer;font-size:18px}.os:hover{border-color:var(--blue)}
+code{background:#111827;color:#f8fafc;padding:3px 6px;border-radius:5px}.terminal{background:#111827;color:#f8fafc;border-radius:10px;padding:12px;line-height:1.8;margin:10px 0;font-family:ui-monospace,Consolas,monospace}
+.notice{background:#fefce8;border:1px solid #fde68a;padding:12px;border-radius:9px}.namebox{display:grid;grid-template-columns:1fr 1fr;gap:10px}.namebox input{padding:10px;border:1px solid var(--line);border-radius:8px;font:inherit}
+@media(max-width:650px){main{padding:10px}.card{padding:16px}.osgrid,.namebox{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header><div class="head"><strong>🖥️ Misión: domina tu sistema operativo</strong><span class="score">⭐ <span id="points">0</span> puntos</span></div></header>
+<main>
+<section class="card">
+<h1>Práctica guiada · 4.º ESO</h1>
+<p>Vas a resolver situaciones reales utilizando primero <strong>EducaAndOS</strong> y después tu <strong>móvil</strong>. No basta con acertar: debes explicar <strong>qué has hecho para llegar a la solución</strong>.</p>
+<div class="notice"><strong>Normas:</strong> no instales ni borres programas, no cambies configuraciones delicadas y no escribas contraseñas. En las respuestas está desactivado pegar texto: redacta con tus propias palabras.</div>
+<div class="namebox" style="margin-top:14px"><input id="student" placeholder="Nombre y apellidos"><input id="group" placeholder="Grupo"></div>
+</section>
+
+<section class="card">
+<h2>FASE 1 · EducaAndOS</h2>
+<p>Trabaja en el ordenador real. Cada reto vale hasta <strong>10 puntos</strong>. Si aciertas a la primera obtienes 10; tras una pista, 7. Si el segundo intento también es incorrecto, se muestra la respuesta orientativa y obtienes 3 puntos.</p>
+<div class="progress"><div id="eduBar" class="bar"></div></div>
+<p><strong><span id="eduCount">0</span>/10</strong> retos superados</p>
+<div id="edu"></div>
+</section>
+
+<section id="gate" class="card lock">
+<h2>🔒 El móvil sigue guardado</h2>
+<p>Supera correctamente los 10 retos de EducaAndOS para desbloquear la segunda fase.</p>
+<div id="unlock" class="hidden">
+<h2 class="ok">🎉 EducaAndOS superado · Puedes sacar el móvil</h2>
+<p>Ahora demuestra que sabes desenvolverte en otro sistema operativo sin que nadie te diga exactamente dónde pulsar.</p>
+<div class="osgrid"><button class="os" data-os="android">🤖<br><strong>ANDROID</strong></button><button class="os" data-os="ios">🍎<br><strong>iOS</strong></button></div>
+</div>
+</section>
+
+<section id="mobileCard" class="card hidden">
+<h2 id="mobileTitle">FASE 2 · Tu móvil</h2>
+<p>Realiza las acciones en tu dispositivo. <strong>No modifiques permisos ni configuraciones:</strong> solo localiza la información y explica cómo has llegado hasta ella.</p>
+<div class="progress"><div id="mobBar" class="bar"></div></div>
+<p><strong><span id="mobCount">0</span>/<span id="mobTotal">0</span></strong> retos superados</p>
+<div id="mobile"></div>
+</section>
+
+<section id="final" class="card hidden">
+<h2>🏆 Misión completada</h2>
+<p>Has demostrado que puedes desenvolverte en dos sistemas operativos diferentes utilizando su interfaz gráfica, localizar aplicaciones y archivos, consultar información del sistema y comprender permisos básicos.</p>
+<p><strong>Puntuación: <span id="finalScore"></span></strong></p>
+<button class="btn" onclick="window.print()">Imprimir / guardar como PDF</button>
+</section>
+</main>
+<script>
+const EDU=[
+["Encuentra una aplicación que no está en el escritorio",
+"Necesitas escribir un trabajo. No puedes usar un acceso directo del escritorio. Encuentra en EducaAndOS una aplicación adecuada para escribir un documento.",
+"¿Qué aplicación has encontrado y cómo has llegado hasta ella?",
+["libreoffice","writer","menú","menu","aplicaciones","buscar","buscador"],
+["writer","libreoffice"],
+"Busca una herramienta de la GUI que permita localizar aplicaciones por nombre o categoría.",
+"En EducaAndOS puedes localizar aplicaciones desde el menú/buscador aunque no exista un icono en el escritorio."],
+
+["Trabaja con dos aplicaciones a la vez",
+"Abre Firefox y la aplicación para escribir documentos. Organiza las ventanas y cambia varias veces de una a otra.",
+"Explica cómo has trabajado con las dos aplicaciones. Indica también una forma rápida de cambiar entre aplicaciones abiertas.",
+["ventana","minim","maxim","restaur","panel","barra","alt","tab"],
+["alt","tab"],
+"Prueba la combinación Alt + Tab y observa qué ocurre.",
+"Las ventanas permiten organizar aplicaciones. Alt+Tab permite cambiar rápidamente entre aplicaciones abiertas."],
+
+["Encuentra un archivo descargado",
+"Localiza un archivo que ya esté en Descargas. Hazlo desde el gestor de archivos, no desde la lista de descargas de Firefox.",
+"Explica qué aplicación has utilizado, qué recorrido has seguido y dónde estaba el archivo.",
+["gestor","archivo","archivos","descargas","carpeta"],
+["descargas"],
+"Busca una aplicación cuyo trabajo sea mostrar carpetas y archivos.",
+"El gestor de archivos permite recorrer el sistema de archivos; las descargas suelen almacenarse en la carpeta Descargas del perfil."],
+
+["Investiga distintos tipos de archivo",
+"Busca en el equipo archivos de varios tipos. Intenta reconocer al menos un documento, una imagen y otro formato.",
+"Escribe al menos tres extensiones que hayas encontrado y explica qué tipo de archivo representa cada una.",
+["pdf","jpg","jpeg","png","odt","docx","xlsx","ods","pptx","odp","txt","html","mp3","mp4","zip"],
+["pdf","jpg"],
+"Fíjate en la parte final del nombre: .pdf, .jpg, .png, .odt, .txt…",
+"La extensión ayuda a identificar el formato de un archivo y qué aplicaciones pueden abrirlo."],
+
+["Averigua cuánto ocupa un archivo",
+"Elige un archivo que no contenga información personal. Averigua su tamaño sin necesidad de abrir su contenido.",
+"Explica qué has hecho para consultar el tamaño y qué otra información has encontrado allí.",
+["propiedad","propiedades","información","informacion","tamaño","tamano","ubicación","ubicacion","tipo"],
+["tamaño","tamano"],
+"Prueba el menú contextual del archivo y busca Propiedades o Información.",
+"Las propiedades permiten consultar metadatos como tamaño, tipo y ubicación sin abrir el contenido."],
+
+["¿Copiar o mover?",
+"Imagina que tienes trabajo.pdf en Documentos. Quieres llevarlo a un USB pero conservar también el original en el ordenador.",
+"¿Debes copiarlo o moverlo? Explica la diferencia entre ambas operaciones.",
+["copiar","original","copia","mover","ubicación","ubicacion"],
+["copiar","original"],
+"Piensa qué operación deja el archivo original donde estaba y crea otro ejemplar en el destino.",
+"Copiar mantiene el original y crea otra copia. Mover cambia el archivo de ubicación."],
+
+["He borrado un archivo por error",
+"Imagina que envías un archivo a la Papelera accidentalmente.",
+"¿Está perdido definitivamente? Explica qué harías para intentar recuperarlo.",
+["papelera","restaur","recuper","devolver"],
+["papelera","restaur"],
+"Busca qué ocurre con un archivo antes de ser eliminado definitivamente.",
+"Normalmente un archivo enviado a la Papelera puede restaurarse mientras no se haya eliminado definitivamente."],
+
+["¿Renombrar convierte un archivo?",
+"Tienes una imagen llamada foto.jpg y cambias su nombre por foto.pdf.",
+"¿La has convertido realmente en un PDF? Explica qué has cambiado y qué no.",
+["no","nombre","extensión","extension","formato","contenido","convert"],
+["no"],
+"Cambiar cómo se llama algo no implica necesariamente transformar su contenido.",
+"Renombrar o cambiar la extensión no convierte el contenido al nuevo formato. Para convertir hay que usar una herramienta que transforme el archivo."],
+
+["Busca sin recorrer todas las carpetas",
+"Imagina que hay cientos de archivos y necesitas encontrar un PDF cuyo nombre no recuerdas exactamente.",
+"Explica qué herramienta utilizarías y cómo intentarías localizarlo.",
+["buscar","búsqueda","busqueda","pdf","filtro","gestor"],
+["buscar"],
+"El gestor de archivos dispone de una función que evita revisar manualmente carpeta por carpeta.",
+"La búsqueda permite localizar archivos por nombre y, según la herramienta, por tipo u otros criterios."],
+
+["GUI y Terminal: el mismo ordenador",
+"Busca Terminal en EducaAndOS y ejecuta únicamente los comandos indicados abajo.",
+"Después de probarlos, explica qué relación existe entre lo que ves con ls y lo que ves en el gestor de archivos.",
+["mismo","archivos","carpeta","directorio","gui","terminal","interfaz","ls"],
+["archivos"],
+"Abre gráficamente la misma carpeta que muestra el Terminal y compara ambos contenidos.",
+"GUI y CLI son dos formas de interactuar con el mismo sistema operativo y su sistema de archivos.",
+`<div class="terminal">$ whoami<br>$ pwd<br>$ ls<br>$ cd Descargas<br>$ pwd<br>$ ls<br>$ cd ..</div>`]
+];
+
+const COMMON=[
+["Encuentra una aplicación sin buscar icono por icono",
+"Utiliza la búsqueda de tu sistema para localizar una aplicación que no tengas visible inmediatamente.",
+"Explica cómo has abierto la búsqueda y cómo has localizado la aplicación.",
+["buscar","búsqueda","busqueda","deslizar","pantalla","inicio","biblioteca","aplicaciones"],
+["buscar"],
+"Tu sistema tiene una búsqueda para localizar aplicaciones sin recorrer todas las pantallas.",
+"La búsqueda del sistema permite localizar rápidamente aplicaciones."],
+
+["¿Qué aplicaciones están abiertas?",
+"Abre la vista de aplicaciones recientes/selector de aplicaciones y cambia a otra aplicación.",
+"Explica cómo has llegado a esa vista y qué utilidad tiene.",
+["recientes","aplicaciones","abiertas","cambiar","selector","deslizar"],
+["aplicaciones"],
+"Busca la función que permite saltar de una aplicación que estabas usando a otra.",
+"El sistema mantiene y organiza aplicaciones recientes y permite cambiar entre ellas."],
+
+["Encuentra un archivo descargado",
+"Localiza un PDF u otro archivo descargado anteriormente. No abras contenido privado para hacer la actividad.",
+"¿Qué aplicación o herramienta has usado y dónde has encontrado el archivo?",
+["archivo","archivos","files","descarga","descargas","carpeta"],
+["archivo","descarga"],
+"Busca la herramienta del sistema destinada a explorar archivos.",
+"También en el móvil existe una organización de archivos y ubicaciones como Descargas."],
+
+["¿Cuánto espacio te queda?",
+"Busca cuánto almacenamiento está utilizado y cuánto queda disponible.",
+"Explica la ruta que has seguido y qué información te muestra el sistema.",
+["ajustes","configuración","configuracion","almacenamiento","espacio","gb"],
+["almacenamiento"],
+"Empieza en los ajustes/configuración del dispositivo y busca almacenamiento.",
+"El sistema operativo permite consultar y gestionar el uso del almacenamiento."],
+
+["¿Cuánto ocupa una aplicación?",
+"Elige una aplicación conocida y averigua cuánto espacio ocupa. No borres datos ni la aplicación.",
+"Explica cómo has llegado a esa información.",
+["ajustes","aplicación","aplicacion","almacenamiento","espacio","tamaño","tamano"],
+["aplicación","aplicacion"],
+"Busca la información de esa aplicación dentro de los ajustes del dispositivo.",
+"El sistema mantiene información sobre las aplicaciones y el espacio que utilizan."],
+
+["¿Quién puede usar la cámara?",
+"Localiza qué aplicaciones tienen permiso para acceder a la cámara. No cambies ningún permiso.",
+"Explica dónde has encontrado esa información y qué significa conceder permiso de cámara.",
+["permiso","cámara","camara","privacidad","acceso","aplicaciones"],
+["cámara","camara"],
+"Busca Privacidad/Permisos en los ajustes.",
+"Un permiso autoriza a una aplicación a utilizar un recurso concreto; no le concede automáticamente todos los permisos."],
+
+["Una calculadora pide demasiado",
+"Imagina que instalas una calculadora y solicita cámara, micrófono y ubicación.",
+"¿Aceptarías automáticamente todos esos permisos? Explica cómo decidirías cuáles tienen sentido.",
+["no","necesario","necesita","función","funcion","permiso","ubicación","ubicacion","cámara","camara","micrófono","microfono"],
+["no"],
+"Relaciona cada permiso solicitado con la función que realmente necesita realizar la aplicación.",
+"Conviene conceder solo los permisos coherentes con la función de la aplicación."],
+
+["¿Qué sistema tienes?",
+"Localiza la versión del sistema operativo de tu móvil sin cambiar ninguna configuración.",
+"Explica dónde la has encontrado y por qué puede ser útil conocerla.",
+["versión","version","android","ios","ajustes","información","informacion","actualización","actualizacion","compatib"],
+["versión","version"],
+"Busca la información del dispositivo dentro de Ajustes.",
+"Conocer la versión ayuda a identificar el sistema y puede ser útil para compatibilidad, soporte y actualizaciones."],
+
+["Comprueba tu conexión",
+"Localiza a qué red Wi-Fi estás conectado. No muestres ni escribas ninguna contraseña.",
+"Explica dónde has consultado la conexión y qué información puedes ver sin revelar datos sensibles.",
+["wifi","wi-fi","red","ajustes","configuración","configuracion","conect"],
+["wifi","wi-fi"],
+"Busca el apartado de conexiones o Wi-Fi del sistema.",
+"El sistema operativo gestiona las conexiones de red y muestra su estado."],
+
+["Dos sistemas distintos, problemas parecidos",
+"Piensa en lo que acabas de hacer con EducaAndOS y con tu móvil.",
+"Explica al menos cuatro funciones que hayas encontrado en ambos sistemas operativos.",
+["aplicaciones","archivos","almacenamiento","configuración","configuracion","wifi","red","buscar","búsqueda","busqueda","permisos","ajustes"],
+["aplicaciones","archivos"],
+"Piensa en buscar apps, archivos, almacenamiento, conexiones, configuración y permisos.",
+"Aunque la apariencia cambie, distintos sistemas operativos ofrecen funciones equivalentes para gestionar aplicaciones, archivos, almacenamiento, conexiones y permisos."]
+];
+
+let points=0, eduDone=new Set(), mobDone=new Set(), current=[];
+const $=x=>document.getElementById(x);
+function norm(s){return s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^\w\s.-]/g," ")}
+function evaluate(text, keywords, must){
+ const n=norm(text); if(n.trim().length<20) return false;
+ const hits=keywords.filter(k=>n.includes(norm(k))).length;
+ const mustHit=must.some(k=>n.includes(norm(k)));
+ return mustHit && hits>=Math.min(2,keywords.length);
+}
+function blockPaste(t){
+ ["paste","drop"].forEach(ev=>t.addEventListener(ev,e=>{e.preventDefault(); alert("En esta actividad debes redactar la respuesta con tus propias palabras.");}));
+ t.addEventListener("contextmenu",e=>e.preventDefault());
+}
+function render(data,target,prefix,set,progress){
+ const root=$(target); root.innerHTML="";
+ data.forEach((r,i)=>{
+  const [title,action,q,keys,must,hint,learn,extra=""]=r;
+  const el=document.createElement("article"); el.className="challenge"; el.id=prefix+i;
+  el.innerHTML=`<h3>${i+1}. ${title}</h3><div class="mission"><strong>Situación:</strong> ${action}${extra}</div>
+  <p><strong>${q}</strong></p><textarea maxlength="900" placeholder="Explica con tus propias palabras qué has hecho y por qué..."></textarea>
+  <br><button class="btn">Comprobar respuesta</button><div class="feedback"></div><div class="hint hidden"></div><div class="solution hidden"></div><div class="learn hidden"></div>`;
+  const ta=el.querySelector("textarea"),btn=el.querySelector("button"),fb=el.querySelector(".feedback"),hi=el.querySelector(".hint"),sol=el.querySelector(".solution"),le=el.querySelector(".learn");
+  blockPaste(ta);
+  let attempts=0;
+  btn.onclick=()=>{
+    if(set.has(i))return; attempts++;
+    if(evaluate(ta.value,keys,must)){
+      const earned = attempts===1 ? 10 : 7;
+      set.add(i); points+=earned; $("points").textContent=points; ta.disabled=true; btn.disabled=true; el.classList.add("done");
+      fb.className="feedback ok"; fb.textContent="✓ Respuesta aceptada. +"+earned+" puntos";
+      le.classList.remove("hidden"); le.innerHTML="<strong>Lo importante:</strong> "+learn;
+      progress();
+    }else if(attempts===1){
+      fb.className="feedback bad"; fb.textContent="✗ Primer intento incorrecto. Revisa lo que has hecho y vuelve a explicarlo. Todavía puedes resolverlo tú.";
+      hi.classList.remove("hidden");
+      hi.innerHTML="<strong>💡 Pista:</strong> "+hint;
+    }else{
+      set.add(i); points+=3; $("points").textContent=points; ta.disabled=true; btn.disabled=true; el.classList.add("done");
+      fb.className="feedback bad"; fb.textContent="Segundo intento incorrecto. Se muestra la solución orientativa. +3 puntos";
+      hi.classList.add("hidden");
+      sol.classList.remove("hidden");
+      sol.innerHTML="<strong>📘 Respuesta orientativa:</strong><br>"+learn+"<br><br><strong>Qué debías explicar:</strong> realiza la acción indicada y describe el procedimiento usando las ideas señaladas en esta respuesta.";
+      progress();
+    }
+  };
+  root.appendChild(el);
+ });
+}
+function eduProgress(){
+ $("eduCount").textContent=eduDone.size;$("eduBar").style.width=(eduDone.size/EDU.length*100)+"%";
+ if(eduDone.size===EDU.length){
+   $("gate").querySelector("h2").classList.add("hidden");
+   $("gate").querySelector("p").classList.add("hidden");
+   $("unlock").classList.remove("hidden");
+   $("gate").scrollIntoView({behavior:"smooth"});
+ }
+}
+function mobProgress(){
+ $("mobCount").textContent=mobDone.size;$("mobBar").style.width=(mobDone.size/current.length*100)+"%";
+ if(mobDone.size===current.length){$("final").classList.remove("hidden");$("finalScore").textContent=points+" puntos";$("final").scrollIntoView({behavior:"smooth"})}
+}
+render(EDU,"edu","e",eduDone,eduProgress);
+
+document.querySelectorAll(".os").forEach(b=>b.onclick=()=>{
+ const os=b.dataset.os;
+ current=COMMON.map(x=>[...x]);
+ // Adapt route hints/wording without forcing one exact version-specific path.
+ if(os==="android"){
+   current[5][5]="En Android suele estar en Ajustes y en una sección relacionada con Privacidad o Permisos; el nombre puede variar según fabricante.";
+   current[7][5]="Busca en Ajustes una sección como Información del teléfono / Acerca del teléfono.";
+ }else{
+   current[5][5]="En iOS busca Ajustes y la sección Privacidad y seguridad; desde allí puedes consultar Cámara.";
+   current[7][5]="En iOS busca Ajustes → General → Información.";
+ }
+ mobDone=new Set();$("mobileCard").classList.remove("hidden");$("final").classList.add("hidden");
+ $("mobileTitle").textContent="FASE 2 · "+(os==="android"?"Android":"iOS");
+ $("mobTotal").textContent=current.length;$("mobCount").textContent=0;$("mobBar").style.width="0";
+ render(current,"mobile","m",mobDone,mobProgress);
+ $("mobileCard").scrollIntoView({behavior:"smooth"});
+});
+</script>
+</body></html>
